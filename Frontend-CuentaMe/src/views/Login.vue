@@ -1,0 +1,15 @@
+<script setup>
+
+</script>
+
+<template>
+  <main class="flex w-full min-h-screen justify-center item-center">
+    <h1 class="text-3xl font-bold underline">
+    Hello world!
+  </h1>
+  </main>
+</template>
+
+<style scoped>
+
+</style>
