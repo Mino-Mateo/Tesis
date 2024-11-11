@@ -6,7 +6,7 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'login',
+      name: 'Login',
       component: LoginView,
     },
     {
@@ -18,6 +18,11 @@ const router = createRouter({
       path: '/reseteo',
       name: 'resetearpassword',
       component: () => import('../views/Resetear_Password.vue'),
+    },
+    {
+      path: '/Menu',
+      name: 'Menu',
+      component: () => import('../views/Menu.vue'),
     },
   ],
 })

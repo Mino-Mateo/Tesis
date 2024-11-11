@@ -55,14 +55,14 @@
 
       <!-- Ingreso -->
       <div class="relative">
-        <button
+        <router-link to="/Menu">
+          <button
           type="submit"
-          class="w-full flex items-center justify-center py-2 px-4 bg-[#8A8FB9] text-[#EEEFFB] font-semibold rounded-[20px] hover:bg-[#9397c0] focus:outline-none focus:ring-2 focus:ring-[#946ad8] focus:border-[#946ad8] focus:ring-opacity-50 font-josefin"
-        >
+          class="w-full flex items-center justify-center py-2 px-4 bg-[#8A8FB9] text-[#EEEFFB] font-semibold rounded-[20px] hover:bg-[#9397c0] focus:outline-none focus:ring-2 focus:ring-[#946ad8] focus:border-[#946ad8] focus:ring-opacity-50 font-josefin">
           <!-- Icono -->
           <img src="../assets/icons/Resaltado/login-icon.svg" alt="Icono Ingresar" class="w-5 h-5 mr-2" />
           Ingresar
-        </button>
+        </button></router-link>
       </div>
     </form>
 
