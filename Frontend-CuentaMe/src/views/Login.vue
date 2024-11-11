@@ -1,7 +1,7 @@
 <!-- HTML -->
 <template>
+<router-view />
 <main id="main" class="flex flex-col w-full min-h-screen">
-
 <!-- Formulario Login -->
 <div class="flex flex-1 items-center justify-center">
   <!-- Contenedor del formulario -->
@@ -66,11 +66,11 @@
       </div>
     </form>
 
-    <!-- Recuperar cuenta -->
-    <div class="text-center mt-6">
-      <a href="/recuperar-cuenta" class="text-sm text-[#E0D3F5] hover:underline font-josefin">
+    <!-- Enlace para recuperar cuenta -->
+    <div class="text-center mt-4">
+      <router-link to="/recuperacion" class="text-sm text-[#E0D3F5] hover:underline font-josefin">
         Recuperar contraseña
-      </a>
+      </router-link>
     </div>
   </div>
 </div>
@@ -100,6 +100,7 @@
 <script setup>
 // Importaciones
 import { ref } from 'vue';
+import { RouterLink, RouterView } from 'vue-router';
 
 // Constantes
 const email = ref('');
