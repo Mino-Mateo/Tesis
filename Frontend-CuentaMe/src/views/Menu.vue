@@ -44,9 +44,4 @@ main {
     transform: translateX(0);
   }
 }
-
-/* Animaciones */ 
-.animate-slide-in {
-  animation: slide-in 0.5s ease-out forwards;
-}
 </style>
