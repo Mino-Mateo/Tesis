@@ -4,13 +4,8 @@
     <!-- Regresar -->
     <button
       class="absolute top-4 left-6 w-10 h-10 bg-[#8568AD] rounded-[10px] flex items-center justify-center"
-      @click="navigateToLogin"
-    >
-      <img
-        src="../assets/icons/Resaltado/back-icon.svg"
-        alt="Flecha Regresar"
-        class="w-8 h-8 pl-2 items-center justify-center"
-      />
+      @click="navigateToLogin">
+      <img src="../assets/icons/Resaltado/back-icon.svg" alt="Flecha Regresar" class="w-8 h-8 pl-2 items-center justify-center" />
     </button>
 
     <!-- Contenedor formulario -->
@@ -144,7 +139,7 @@ const showError = ref(false);
 const showConfirmation = ref(false);
 const showPassword = ref(false);
 
-// Navegar al Login
+// Regresar al Login
 function navigateToLogin() {
   router.push({ name: "login" });
 }

@@ -6,7 +6,7 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'Login',
+      name: 'login',
       component: LoginView,
     },
     {
@@ -23,6 +23,21 @@ const router = createRouter({
       path: '/Menu',
       name: 'Menu',
       component: () => import('../views/Menu.vue'),
+    },
+    {
+      path: '/Clientes',
+      name: 'Clientes',
+      component: () => import('../views/Clientes.vue'),
+    },
+    {
+      path: '/Pedidos',
+      name: 'Pedidos',
+      component: () => import('../views/Pedidos.vue'),
+    },
+    {
+      path: '/Productos',
+      name: 'Productos',
+      component: () => import('../views/Productos.vue'),
     },
   ],
 })
