@@ -1,18 +1,97 @@
 <!-- HTML -->
 <template>
-    <main id="main" class="flex flex-col w-full min-h-screen">
+  <!-- Navbar -->
+  <Navbar />
 
-    <!-- Navbar -->
-    <Navbar />
+  <main id="main" class="flex w-full min-h-screen p-4">
+    <!-- Contenedor principal -->
+    <div class="flex w-full gap-6 mt-[26px]">
 
-    </main>
+      <!-- Contenedor cajas -->
+      <section class="w-1/3 max-w-xs p-5 bg-[#8568AD] rounded-[20px] shadow-[4px_5px_16px_1px_#595959] h-[630px]">
+        <!-- Añadir Caja -->
+        <button @click="showAddForm = true" class="w-full bg-green-500 text-white font-bold py-2 px-4 mb-4 rounded-[20px]">
+          Añadir Caja
+        </button>
+        
+        <!-- Cuadro de Busqueda -->
+        <div class="relative mb-10">
+          <span class="absolute inset-y-0 left-4 flex items-center">
+            <img src="../assets/icons/Resaltado/lupa-icon.svg" alt="Icono Buscar" class="w-7 h-6" />
+          </span>
+          <input
+            type="text"
+            placeholder="Buscar por nombre"
+            v-model="searchQuery"
+            @input="filterCajas"
+            class="block w-full pl-12 pr-3 py-3 text-center text-[#8A8A8A] font-bold bg-[#E0D3F5] border border-gray-300 rounded-[20px] shadow-sm placeholder-gray-400 focus:outline-none focus:ring-[#946ad8] focus:border-[#946ad8]"
+          />
+        </div>
+
+        <!-- Lista de cajas -->
+        <div class="h-[500px] overflow-y-auto space-y-4 pr-5">
+          <div
+            v-for="(caja, index) in filteredCajas"
+            :key="index"
+            @click="selectCaja(caja)"
+            class="caja-item p-1 pr-4 text-[#8A8A8A] font-bold bg-[#E0D3F5] flex items-center rounded-[20px] cursor-pointer"
+          >
+            <span>{{ caja.nombre }}</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Datos de las cajas -->
+    </div>
+  </main>
 </template>
 
 
 <!-- Scripts -->
 <script setup>
-// Importar el Navbar
-import Navbar from '../components/Navbar.vue';
+import Navbar from "../components/Navbar.vue";
+import { ref, computed } from 'vue';
+
+// Datos de las cajas
+const cajas = ref([
+  { foto: 'https://via.placeholder.com/150', nombre: 'Caja Negra', descripcion: 'Cajaa negra con borde dorado hermoso', precio: 100, stock: 10 },
+  { foto: 'https://via.placeholder.com/150', nombre: 'Caja Negra', descripcion: 'Cajaa negra con borde dorado hermoso', precio: 100, stock: 10 },
+  { foto: 'https://via.placeholder.com/150', nombre: 'Caja Negra', descripcion: 'Cajaa negra con borde dorado hermoso', precio: 100, stock: 10 },
+  { foto: 'https://via.placeholder.com/150', nombre: 'Caja Negra', descripcion: 'Cajaa negra con borde dorado hermoso', precio: 100, stock: 10 },
+  { foto: 'https://via.placeholder.com/150', nombre: 'Caja Negra', descripcion: 'Cajaa negra con borde dorado hermoso', precio: 100, stock: 10 },
+  { foto: 'https://via.placeholder.com/150', nombre: 'Caja Negra', descripcion: 'Cajaa negra con borde dorado hermoso', precio: 100, stock: 10 },
+  { foto: 'https://via.placeholder.com/150', nombre: 'Caja Negra', descripcion: 'Cajaa negra con borde dorado hermoso', precio: 100, stock: 10 },
+  { foto: 'https://via.placeholder.com/150', nombre: 'Caja Negra', descripcion: 'Cajaa negra con borde dorado hermoso', precio: 100, stock: 10 },
+  { foto: 'https://via.placeholder.com/150', nombre: 'Caja Negra', descripcion: 'Cajaa negra con borde dorado hermoso', precio: 100, stock: 10 },
+  { foto: 'https://via.placeholder.com/150', nombre: 'Caja Negra', descripcion: 'Cajaa negra con borde dorado hermoso', precio: 100, stock: 10 },
+  { foto: 'https://via.placeholder.com/150', nombre: 'Caja Negra', descripcion: 'Cajaa negra con borde dorado hermoso', precio: 100, stock: 10 },
+  { foto: 'https://via.placeholder.com/150', nombre: 'Caja Negra', descripcion: 'Cajaa negra con borde dorado hermoso', precio: 100, stock: 10 },
+  { foto: 'https://via.placeholder.com/150', nombre: 'Caja Negra', descripcion: 'Cajaa negra con borde dorado hermoso', precio: 100, stock: 10 },
+  { foto: 'https://via.placeholder.com/150', nombre: 'Caja Negra', descripcion: 'Cajaa negra con borde dorado hermoso', precio: 100, stock: 10 },
+  { foto: 'https://via.placeholder.com/150', nombre: 'Caja Negra', descripcion: 'Cajaa negra con borde dorado hermoso', precio: 100, stock: 10 },
+]);
+
+const selectedCaja = ref(null);
+const searchQuery = ref("");
+const showAddForm = ref(false);
+const editMode = ref(false);
+
+
+// Filtrar cajas
+const filteredCajas = computed(() => {
+  return cajas.value.filter(caja => 
+    caja.nombre.toLowerCase().includes(searchQuery.value.toLowerCase())
+  );
+});
+
+// Seleccionar caja
+function selectCaja(caja) {
+  selectedCaja.value = caja;
+  showAddForm.value = false;
+  editMode.value = false;
+}
+
+
 </script>
 
 
