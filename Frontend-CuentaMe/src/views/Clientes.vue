@@ -95,19 +95,19 @@ const clientes = ref([
   { nombre: 'Jaime', apellido: 'Sabines', correo: 'jaime@example.com', telefono: '0999999999', direccion: 'Calle 3' },
   { nombre: 'Leonel', apellido: 'Messi', correo: 'leo@example.com', telefono: '0999999999', direccion: 'Calle 4' },
   { nombre: 'Cristiano', apellido: 'Ronaldo', correo: 'cr7@example.com', telefono: '0999999999', direccion: 'Calle 5' },
-  { nombre: 'Serena', apellido: 'Yvonne', correo: 'serexyz@example.com', telefono: '0999999999', direccion: 'Calle 5' },
+  { nombre: 'Serena', apellido: 'Yvonne', correo: 'serexyz@example.com', telefono: '0999999999', direccion: 'Calle 6' },
   { nombre: 'Salome', apellido: 'Suarez', correo: 'salome@example.com', telefono: '0999999999', direccion: 'Calle 1' },
   { nombre: 'John', apellido: 'Travolta', correo: 'john@example.com', telefono: '0999999999', direccion: 'Calle 2' },
   { nombre: 'Jaime', apellido: 'Sabines', correo: 'jaime@example.com', telefono: '0999999999', direccion: 'Calle 3' },
   { nombre: 'Leonel', apellido: 'Messi', correo: 'leo@example.com', telefono: '0999999999', direccion: 'Calle 4' },
   { nombre: 'Cristiano', apellido: 'Ronaldo', correo: 'cr7@example.com', telefono: '0999999999', direccion: 'Calle 5' },
-  { nombre: 'Serena', apellido: 'Yvonne', correo: 'serexyz@example.com', telefono: '0999999999', direccion: 'Calle 5' },
+  { nombre: 'Serena', apellido: 'Yvonne', correo: 'serexyz@example.com', telefono: '0999999999', direccion: 'Calle 6' },
   { nombre: 'Salome', apellido: 'Suarez', correo: 'salome@example.com', telefono: '0999999999', direccion: 'Calle 1' },
   { nombre: 'John', apellido: 'Travolta', correo: 'john@example.com', telefono: '0999999999', direccion: 'Calle 2' },
   { nombre: 'Jaime', apellido: 'Sabines', correo: 'jaime@example.com', telefono: '0999999999', direccion: 'Calle 3' },
   { nombre: 'Leonel', apellido: 'Messi', correo: 'leo@example.com', telefono: '0999999999', direccion: 'Calle 4' },
   { nombre: 'Cristiano', apellido: 'Ronaldo', correo: 'cr7@example.com', telefono: '0999999999', direccion: 'Calle 5' },
-  { nombre: 'Serena', apellido: 'Yvonne', correo: 'serexyz@example.com', telefono: '0999999999', direccion: 'Calle 5' },
+  { nombre: 'Serena', apellido: 'Yvonne', correo: 'serexyz@example.com', telefono: '0999999999', direccion: 'Calle 6' },
 ]);
 
 const selectedCliente = ref(null);
