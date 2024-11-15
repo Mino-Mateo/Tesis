@@ -29,19 +29,61 @@
         </div>
 
         <!-- Lista de cajas -->
-        <div class="h-[500px] overflow-y-auto space-y-4 pr-5">
+        <div class="h-[460px] overflow-y-auto space-y-4 pr-5">
           <div
             v-for="(caja, index) in filteredCajas"
             :key="index"
             @click="selectCaja(caja)"
             class="caja-item p-1 pr-4 text-[#8A8A8A] font-bold bg-[#E0D3F5] flex items-center rounded-[20px] cursor-pointer"
           >
+          <div class="icon w-10 h-10 rounded-full flex items-center justify-center mr-4">
+              <img src="../assets/icons/Resaltado/cliente-icon.svg" alt="Icono Cliente" class="w-8 h-8" />
+            </div>
             <span>{{ caja.nombre }}</span>
           </div>
         </div>
       </section>
 
       <!-- Datos de las cajas -->
+      <section class="w-2/3 p-8 h-[600px] bg-[#8568AD] rounded-[20px] shadow-[4px_5px_16px_1px_#595959] flex flex-col items-center">
+        <div class="flex items-center justify-center mb-6">
+          <h2 class="text-[36px] font-bold text-white">Datos de la Caja</h2>
+        </div>
+
+        <div v-if="selectedCliente" class="w-full bg-[#C7B2E3] text-[24px] font-josefin p-8 rounded-[20px] text-[#4B3C68] font-semibold space-y-10">
+          <!-- Correo -->
+          <div class="flex justify-between items-center space-x-4">
+            <div class="flex items-center space-x-2 w-1/2">
+              <strong class="whitespace-nowrap">Correo:</strong>
+              <span class="bg-[#E9D8FD] p-3 rounded-[10px] flex-1 truncate">{{ selectedCliente.correo }}</span>
+            </div>
+          </div>
+          
+          <!-- Nombre y Apellido -->
+          <div class="flex justify-between space-x-4">
+            <div class="flex items-center space-x-2 w-1/2">
+              <strong class="whitespace-nowrap">Nombre:</strong>
+              <span class="bg-[#E9D8FD] p-3 rounded-[10px] flex-1 truncate">{{ selectedCliente.nombre }}</span>
+            </div>
+            <div class="flex items-center space-x-2 w-1/2">
+              <strong class="whitespace-nowrap">Apellido:</strong>
+              <span class="bg-[#E9D8FD] p-3 rounded-[10px] flex-1 truncate">{{ selectedCliente.apellido }}</span>
+            </div>
+          </div>
+          
+          <!-- Direccion y Telefono -->
+          <div class="flex justify-between space-x-4">
+            <div class="flex items-center space-x-2 w-1/2">
+              <strong class="whitespace-nowrap">Dirección:</strong>
+              <span class="bg-[#E9D8FD] p-3 rounded-[10px] flex-1 truncate">{{ selectedCliente.direccion }}</span>
+            </div>
+            <div class="flex items-center space-x-2 w-1/2">
+              <strong class="whitespace-nowrap">Teléfono:</strong>
+              <span class="bg-[#E9D8FD] p-3 rounded-[10px] flex-1 truncate">{{ selectedCliente.telefono }}</span>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   </main>
 </template>
@@ -55,20 +97,21 @@ import { ref, computed } from 'vue';
 // Datos de las cajas
 const cajas = ref([
   { foto: 'https://via.placeholder.com/150', nombre: 'Caja Negra', descripcion: 'Cajaa negra con borde dorado hermoso', precio: 100, stock: 10 },
+  { foto: 'https://via.placeholder.com/150', nombre: 'Caja Blanca', descripcion: 'Cajaa negra con borde dorado hermoso', precio: 100, stock: 10 },
+  { foto: 'https://via.placeholder.com/150', nombre: 'Caja Azul', descripcion: 'Cajaa negra con borde dorado hermoso', precio: 100, stock: 10 },
+  { foto: 'https://via.placeholder.com/150', nombre: 'Caja Verde', descripcion: 'Cajaa negra con borde dorado hermoso', precio: 100, stock: 10 },
+  { foto: 'https://via.placeholder.com/150', nombre: 'Caja Gris', descripcion: 'Cajaa negra con borde dorado hermoso', precio: 100, stock: 10 },
+  { foto: 'https://via.placeholder.com/150', nombre: 'Caja Rosa', descripcion: 'Cajaa negra con borde dorado hermoso', precio: 100, stock: 10 },
+  { foto: 'https://via.placeholder.com/150', nombre: 'Caja Violeta', descripcion: 'Cajaa negra con borde dorado hermoso', precio: 100, stock: 10 },
+  { foto: 'https://via.placeholder.com/150', nombre: 'Caja Amarilla', descripcion: 'Cajaa negra con borde dorado hermoso', precio: 100, stock: 10 },
   { foto: 'https://via.placeholder.com/150', nombre: 'Caja Negra', descripcion: 'Cajaa negra con borde dorado hermoso', precio: 100, stock: 10 },
-  { foto: 'https://via.placeholder.com/150', nombre: 'Caja Negra', descripcion: 'Cajaa negra con borde dorado hermoso', precio: 100, stock: 10 },
-  { foto: 'https://via.placeholder.com/150', nombre: 'Caja Negra', descripcion: 'Cajaa negra con borde dorado hermoso', precio: 100, stock: 10 },
-  { foto: 'https://via.placeholder.com/150', nombre: 'Caja Negra', descripcion: 'Cajaa negra con borde dorado hermoso', precio: 100, stock: 10 },
-  { foto: 'https://via.placeholder.com/150', nombre: 'Caja Negra', descripcion: 'Cajaa negra con borde dorado hermoso', precio: 100, stock: 10 },
-  { foto: 'https://via.placeholder.com/150', nombre: 'Caja Negra', descripcion: 'Cajaa negra con borde dorado hermoso', precio: 100, stock: 10 },
-  { foto: 'https://via.placeholder.com/150', nombre: 'Caja Negra', descripcion: 'Cajaa negra con borde dorado hermoso', precio: 100, stock: 10 },
-  { foto: 'https://via.placeholder.com/150', nombre: 'Caja Negra', descripcion: 'Cajaa negra con borde dorado hermoso', precio: 100, stock: 10 },
-  { foto: 'https://via.placeholder.com/150', nombre: 'Caja Negra', descripcion: 'Cajaa negra con borde dorado hermoso', precio: 100, stock: 10 },
-  { foto: 'https://via.placeholder.com/150', nombre: 'Caja Negra', descripcion: 'Cajaa negra con borde dorado hermoso', precio: 100, stock: 10 },
-  { foto: 'https://via.placeholder.com/150', nombre: 'Caja Negra', descripcion: 'Cajaa negra con borde dorado hermoso', precio: 100, stock: 10 },
-  { foto: 'https://via.placeholder.com/150', nombre: 'Caja Negra', descripcion: 'Cajaa negra con borde dorado hermoso', precio: 100, stock: 10 },
-  { foto: 'https://via.placeholder.com/150', nombre: 'Caja Negra', descripcion: 'Cajaa negra con borde dorado hermoso', precio: 100, stock: 10 },
-  { foto: 'https://via.placeholder.com/150', nombre: 'Caja Negra', descripcion: 'Cajaa negra con borde dorado hermoso', precio: 100, stock: 10 },
+  { foto: 'https://via.placeholder.com/150', nombre: 'Caja Blanca', descripcion: 'Cajaa negra con borde dorado hermoso', precio: 100, stock: 10 },
+  { foto: 'https://via.placeholder.com/150', nombre: 'Caja Azul', descripcion: 'Cajaa negra con borde dorado hermoso', precio: 100, stock: 10 },
+  { foto: 'https://via.placeholder.com/150', nombre: 'Caja Verde', descripcion: 'Cajaa negra con borde dorado hermoso', precio: 100, stock: 10 },
+  { foto: 'https://via.placeholder.com/150', nombre: 'Caja Gris', descripcion: 'Cajaa negra con borde dorado hermoso', precio: 100, stock: 10 },
+  { foto: 'https://via.placeholder.com/150', nombre: 'Caja Rosa', descripcion: 'Cajaa negra con borde dorado hermoso', precio: 100, stock: 10 },
+  { foto: 'https://via.placeholder.com/150', nombre: 'Caja Violeta', descripcion: 'Cajaa negra con borde dorado hermoso', precio: 100, stock: 10 },
+  { foto: 'https://via.placeholder.com/150', nombre: 'Caja Amarilla', descripcion: 'Cajaa negra con borde dorado hermoso', precio: 100, stock: 10 },
 ]);
 
 const selectedCaja = ref(null);
