@@ -45,56 +45,65 @@
       </section>
 
       <!-- Datos de las cajas -->
-      <section class="w-2/3 p-3 h-[630px] bg-[#8568AD] rounded-[20px] shadow-[4px_5px_16px_1px_#595959] flex flex-col items-center">
+      <section class="w-2/3 p-2 pl-5 pr-5 h-[630px] bg-[#8568AD] rounded-[20px] shadow-[4px_5px_16px_1px_#595959] flex flex-col items-center">
         <div class="flex items-center justify-center mb-6">
           <h2 class="text-[36px] font-bold text-white">Datos de la Caja</h2>
         </div>
 
-        <div v-if="selectedCaja" class="w-full bg-[#8A8FB9] text-[24px] font-josefin p-8 rounded-[20px] text-[#4B3C68] font-semibold space-y-10">
-          <!-- Datos generales -->
-          <div class="flex justify-between items-center space-x-4">
-            <!-- Imagen caja -->
-            <div class="flex items-center space-x-2 w-1/2">
-              <strong class="whitespace-nowrap">Foto:</strong>
-              <span class="bg-[#E9D8FD] p-3 rounded-[10px] flex-1 truncate">            
-                <img :src="selectedCaja.foto" alt="Foto de la Caja" class="w-32 h-32 object-cover rounded-full mx-auto" />
-              </span>
+        <div v-if="selectedCaja" class="w-full h-min-content bg-[#8A8FB9] text-[24px] font-josefin p-8 rounded-[20px] text-[#4B3C68] font-semibold space-y-10">
+        <!-- Datos generales -->
+        <div class="flex justify-between items-center space-x-4">
+          <!-- Imagen caja -->
+          <div class="flex flex-col items-center w-1/2">
+            <strong class="whitespace-nowrap">Foto:</strong>
+            <div v-if="editMode" class="w-full">
+              <input v-model="selectedCaja.foto" type="text" placeholder="URL de la Foto" class="w-full p-2 rounded-md" />
             </div>
-
-            <!-- Nombre caja -->
-            <div class="flex items-center space-x-5 w-1/2">
-              <strong class="whitespace-nowrap">Nombre:</strong> 
-              <span class="bg-[#E9D8FD] p-3 rounded-[10px] flex-1 truncate">{{ selectedCaja.nombre }}</span>
-            </div>
-          </div> 
-
-            <!-- Descripcion caja -->
-            <div class="flex items-center space-x-2 w-full">
-              <strong class="whitespace-nowrap">Descripción:</strong> 
-              <span class="bg-[#E9D8FD] p-3 rounded-[10px] flex-1 truncate">{{ selectedCaja.descripcion }}</span>
-            </div>
-
-            <div class="flex justify-between space-x-4">             
-            <!-- Precio caja -->
-            <div class="flex items-center space-x-2 w-1/2">
-              <strong class="whitespace-nowrap">Precio:</strong> 
-              <span class="bg-[#E9D8FD] p-3 rounded-[10px] flex-1 truncate">{{ selectedCaja.precio }}</span>
-            </div>
-
-            <!-- Stock caja -->
-            <div class="flex items-center space-x-2 w-1/2">
-              <strong class="whitespace-nowrap">Stock:</strong> 
-              <span class="bg-[#E9D8FD] p-3 rounded-[10px] flex-1 truncate">
-                {{ selectedCaja.stock }}</span>
-            </div>
+            <span v-else class="bg-[#E0D3F5] p-3 rounded-[10px]">
+              <img :src="selectedCaja.foto" alt="Foto de la Caja" class="w-32 h-32 object-cover rounded-full mx-auto" />
+            </span>
           </div>
 
-          <!-- Botones eliminar y editar -->
-          <div class="flex justify-around mt-6">
-            <button @click="editCaja" class="bg-[#EBBA53] text-black py-4 px-10 rounded-[50px]">Editar Datos</button>
-            <button @click="confirmDeleteCaja" class="bg-[#DA6B65] text-black py-4 px-10 rounded-[50px]">Eliminar Datos</button>
-          </div>         
+          <!-- Nombre caja -->
+          <div class="flex flex-col w-1/2">
+            <strong class="whitespace-nowrap">Nombre:</strong>
+            <span v-if="!editMode" class="bg-[#E0D3F5] p-3 rounded-[10px] truncate">{{ selectedCaja.nombre }}</span>
+            <input v-else v-model="selectedCaja.nombre" type="text" placeholder="Nombre" class="w-full p-2 rounded-md" />
+          </div>
+
+        <!-- Descripción caja -->
+        <div class="flex flex-col w-full">
+          <strong class="whitespace-nowrap">Descripción:</strong>
+          <span v-if="!editMode" class="bg-[#E0D3F5] p-3 rounded-[10px] truncate">{{ selectedCaja.descripcion }}</span>
+          <input v-else v-model="selectedCaja.descripcion" type="text" placeholder="Descripción" class="w-full p-2 rounded-md" />
         </div>
+        </div>
+
+
+        <!-- Precio y Stock -->
+        <div class="flex justify-between space-x-4">
+          <!-- Precio -->
+          <div class="flex flex-col w-1/2">
+            <strong class="whitespace-nowrap">Precio:</strong>
+            <span v-if="!editMode" class="bg-[#E0D3F5] p-3 rounded-[10px] truncate">{{ selectedCaja.precio }}</span>
+            <input v-else v-model="selectedCaja.precio" type="number" placeholder="Precio" class="w-full p-2 rounded-md" />
+          </div>
+
+          <!-- Stock -->
+          <div class="flex flex-col w-1/2">
+            <strong class="whitespace-nowrap">Stock:</strong>
+            <span v-if="!editMode" class="bg-[#E0D3F5] p-3 rounded-[10px] truncate">{{ selectedCaja.stock }}</span>
+            <input v-else v-model="selectedCaja.stock" type="number" placeholder="Stock" class="w-full p-2 rounded-md" />
+          </div>
+        </div>
+
+        <!-- Botones editar y eliminar -->
+        <div class="flex justify-around mt-6">
+          <button v-if="!editMode" @click="editMode = true" class="bg-[#EBBA53] text-black py-4 px-10 rounded-[50px]">Editar Datos</button>
+          <button v-if="editMode" @click="saveCaja" class="bg-[#95CF68] text-black py-4 px-10 rounded-[50px]">Confirmar</button>
+          <button v-if="!editMode" @click="confirmDeleteCaja" class="bg-[#DA6B65] text-black py-4 px-10 rounded-[50px]">Eliminar Datos</button>
+        </div>
+      </div>
       </section>
     </div>
   </main>
@@ -130,7 +139,8 @@ const selectedCaja = ref(null);
 const searchQuery = ref("");
 const showAddForm = ref(false);
 const editMode = ref(false);
-
+const newCaja = ref({ foto: '', nombre: '', descripcion: '', precio: 0, stock: 0 });
+const showDeleteConfirm = ref(false);
 
 // Filtrar cajas
 const filteredCajas = computed(() => {
@@ -146,6 +156,41 @@ function selectCaja(caja) {
   editMode.value = false;
 }
 
+// Añadir caja
+function saveCaja() {
+  if (editMode.value) {
+    Object.assign(selectedCaja.value, newCaja.value);
+  } else {
+    cajas.value.push({ ...newCaja.value });
+  }
+  resetForm();
+}
+
+// Editar caja
+function editCaja() {
+  editMode.value = true;
+  Object.assign(newCaja.value, selectedCaja.value);
+  showAddForm.value = true;
+}
+
+// Confirmar borrado
+function confirmDeleteCaja() {
+  showDeleteConfirm.value = true;
+}
+
+// Eliminar caja
+function deleteCaja() {
+  cajas.value = cajas.value.filter(caja => caja !== selectedCaja.value);
+  selectedCaja.value = null;
+  showDeleteConfirm.value = false;
+}
+
+// Formulario en blanco
+function resetForm() {
+  newCaja.value = { foto: '', nombre: '', descripcion: '', precio: 0, stock: 0 };
+  showAddForm.value = false;
+  editMode.value = false;
+}
 </script>
 
 

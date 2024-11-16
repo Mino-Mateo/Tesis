@@ -45,7 +45,7 @@
           <h2 class="text-[36px] font-bold text-white">Datos del Cliente</h2>
         </div>
 
-        <div v-if="selectedCliente" class="w-full bg-[#8A8FB9] text-[24px] font-josefin p-8 rounded-[20px] text-[#4B3C68] font-semibold space-y-10">
+        <div v-if="selectedCliente" class="w-full h-[630px] bg-[#8A8FB9] text-[24px] font-josefin p-8 rounded-[20px] text-[#4B3C68] font-semibold space-y-10">
           <!-- Correo -->
           <div class="flex justify-between items-center space-x-4">
             <div class="flex items-center space-x-2 w-1/2">
