@@ -10,7 +10,7 @@
       <!-- Contenedor cajas -->
       <section class="w-1/3 max-w-xs p-5 bg-[#8568AD] rounded-[20px] shadow-[4px_5px_16px_1px_#595959] h-[630px]">
         <!-- Añadir Caja -->
-        <button @click="showAddForm = true" class="w-full bg-green-500 text-white font-bold py-2 px-4 mb-4 rounded-[20px]">
+        <button @click="showAddForm = true" class="w-full bg-[#8A8FB9] text-white font-bold py-2 px-4 mb-4 rounded-[20px]">
           Añadir Caja
         </button>
         
@@ -37,7 +37,7 @@
             class="caja-item p-1 pr-4 text-[#8A8A8A] font-bold bg-[#E0D3F5] flex items-center rounded-[20px] cursor-pointer"
           >
           <div class="icon w-10 h-10 rounded-full flex items-center justify-center mr-4">
-              <img src="../assets/icons/Resaltado/cliente-icon.svg" alt="Icono Cliente" class="w-8 h-8" />
+              <img src="../assets/icons/Resaltado/caja2-icon.svg" alt="Icono Cliente" class="w-8 h-8" />
             </div>
             <span>{{ caja.nombre }}</span>
           </div>
@@ -45,43 +45,55 @@
       </section>
 
       <!-- Datos de las cajas -->
-      <section class="w-2/3 p-8 h-[600px] bg-[#8568AD] rounded-[20px] shadow-[4px_5px_16px_1px_#595959] flex flex-col items-center">
+      <section class="w-2/3 p-3 h-[630px] bg-[#8568AD] rounded-[20px] shadow-[4px_5px_16px_1px_#595959] flex flex-col items-center">
         <div class="flex items-center justify-center mb-6">
           <h2 class="text-[36px] font-bold text-white">Datos de la Caja</h2>
         </div>
 
-        <div v-if="selectedCliente" class="w-full bg-[#C7B2E3] text-[24px] font-josefin p-8 rounded-[20px] text-[#4B3C68] font-semibold space-y-10">
-          <!-- Correo -->
+        <div v-if="selectedCaja" class="w-full bg-[#8A8FB9] text-[24px] font-josefin p-8 rounded-[20px] text-[#4B3C68] font-semibold space-y-10">
+          <!-- Datos generales -->
           <div class="flex justify-between items-center space-x-4">
+            <!-- Imagen caja -->
             <div class="flex items-center space-x-2 w-1/2">
-              <strong class="whitespace-nowrap">Correo:</strong>
-              <span class="bg-[#E9D8FD] p-3 rounded-[10px] flex-1 truncate">{{ selectedCliente.correo }}</span>
+              <strong class="whitespace-nowrap">Foto:</strong>
+              <span class="bg-[#E9D8FD] p-3 rounded-[10px] flex-1 truncate">            
+                <img :src="selectedCaja.foto" alt="Foto de la Caja" class="w-32 h-32 object-cover rounded-full mx-auto" />
+              </span>
+            </div>
+
+            <!-- Nombre caja -->
+            <div class="flex items-center space-x-5 w-1/2">
+              <strong class="whitespace-nowrap">Nombre:</strong> 
+              <span class="bg-[#E9D8FD] p-3 rounded-[10px] flex-1 truncate">{{ selectedCaja.nombre }}</span>
+            </div>
+          </div> 
+
+            <!-- Descripcion caja -->
+            <div class="flex items-center space-x-2 w-full">
+              <strong class="whitespace-nowrap">Descripción:</strong> 
+              <span class="bg-[#E9D8FD] p-3 rounded-[10px] flex-1 truncate">{{ selectedCaja.descripcion }}</span>
+            </div>
+
+            <div class="flex justify-between space-x-4">             
+            <!-- Precio caja -->
+            <div class="flex items-center space-x-2 w-1/2">
+              <strong class="whitespace-nowrap">Precio:</strong> 
+              <span class="bg-[#E9D8FD] p-3 rounded-[10px] flex-1 truncate">{{ selectedCaja.precio }}</span>
+            </div>
+
+            <!-- Stock caja -->
+            <div class="flex items-center space-x-2 w-1/2">
+              <strong class="whitespace-nowrap">Stock:</strong> 
+              <span class="bg-[#E9D8FD] p-3 rounded-[10px] flex-1 truncate">
+                {{ selectedCaja.stock }}</span>
             </div>
           </div>
-          
-          <!-- Nombre y Apellido -->
-          <div class="flex justify-between space-x-4">
-            <div class="flex items-center space-x-2 w-1/2">
-              <strong class="whitespace-nowrap">Nombre:</strong>
-              <span class="bg-[#E9D8FD] p-3 rounded-[10px] flex-1 truncate">{{ selectedCliente.nombre }}</span>
-            </div>
-            <div class="flex items-center space-x-2 w-1/2">
-              <strong class="whitespace-nowrap">Apellido:</strong>
-              <span class="bg-[#E9D8FD] p-3 rounded-[10px] flex-1 truncate">{{ selectedCliente.apellido }}</span>
-            </div>
-          </div>
-          
-          <!-- Direccion y Telefono -->
-          <div class="flex justify-between space-x-4">
-            <div class="flex items-center space-x-2 w-1/2">
-              <strong class="whitespace-nowrap">Dirección:</strong>
-              <span class="bg-[#E9D8FD] p-3 rounded-[10px] flex-1 truncate">{{ selectedCliente.direccion }}</span>
-            </div>
-            <div class="flex items-center space-x-2 w-1/2">
-              <strong class="whitespace-nowrap">Teléfono:</strong>
-              <span class="bg-[#E9D8FD] p-3 rounded-[10px] flex-1 truncate">{{ selectedCliente.telefono }}</span>
-            </div>
-          </div>
+
+          <!-- Botones eliminar y editar -->
+          <div class="flex justify-around mt-6">
+            <button @click="editCaja" class="bg-[#EBBA53] text-black py-4 px-10 rounded-[50px]">Editar Datos</button>
+            <button @click="confirmDeleteCaja" class="bg-[#DA6B65] text-black py-4 px-10 rounded-[50px]">Eliminar Datos</button>
+          </div>         
         </div>
       </section>
     </div>
@@ -133,7 +145,6 @@ function selectCaja(caja) {
   showAddForm.value = false;
   editMode.value = false;
 }
-
 
 </script>
 

@@ -40,12 +40,12 @@
       </section>
 
       <!-- Datos del Cliente -->
-      <section class="w-2/3 p-8 h-[600px] bg-[#8568AD] rounded-[20px] shadow-[4px_5px_16px_1px_#595959] flex flex-col items-center">
+      <section class="w-2/3 p-8 h-[630px] bg-[#8568AD] rounded-[20px] shadow-[4px_5px_16px_1px_#595959] flex flex-col items-center">
         <div class="flex items-center justify-center mb-6">
           <h2 class="text-[36px] font-bold text-white">Datos del Cliente</h2>
         </div>
 
-        <div v-if="selectedCliente" class="w-full bg-[#C7B2E3] text-[24px] font-josefin p-8 rounded-[20px] text-[#4B3C68] font-semibold space-y-10">
+        <div v-if="selectedCliente" class="w-full bg-[#8A8FB9] text-[24px] font-josefin p-8 rounded-[20px] text-[#4B3C68] font-semibold space-y-10">
           <!-- Correo -->
           <div class="flex justify-between items-center space-x-4">
             <div class="flex items-center space-x-2 w-1/2">
