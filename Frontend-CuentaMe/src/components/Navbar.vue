@@ -1,54 +1,56 @@
 <!-- HTML -->
 <template>
-  <nav class="navbar flex items-center justify-between bg-[#8568AD] p-4 font-poppins rounded-b-lg shadow-[4px_5px_16px_1px_#595959]">
+  <nav class="navbar flex items-center justify-between bg-primary p-4 font-heading rounded-b-lg shadow-lg">
     <!-- Texto de bienvenida -->
     <div class="flex-1 flex justify-start">
-      <span class="text-white text-lg font-bold">Bienvenid@ Usuario</span>
+      <span class="text-text-light text-lg font-bold">Bienvenid@ Usuario</span>
     </div>
 
-    <!-- Navegacion -->
-    <div class="flex-1 flex justify-between space-x-6 font-semibold text-white ">
-      <router-link to="/clientes" class="nav-item">Clientes</router-link>
-      <router-link to="/productos" class="nav-item">Productos</router-link>
-      <router-link to="/pedidos" class="nav-item">Pedidos</router-link>
+    <!-- Navegación -->
+    <div class="flex-1 flex justify-between space-x-6 font-semibold text-text-light">
+      <router-link to="/Clientes" aria-label="Ir a la sección de Clientes"
+        class="nav-item transition-colors hover:text-primary-dark">Clientes</router-link>
+      <router-link to="/Menu_Productos" aria-label="Ir a la sección de Productos"
+        class="nav-item transition-colors hover:text-primary-dark">Productos</router-link>
+      <router-link to="/Pedidos" aria-label="Ir a la sección de Pedidos"
+        class="nav-item transition-colors hover:text-primary-dark">Pedidos</router-link>
     </div>
 
-    <!-- Cerrar sesion -->
+    <!-- Cerrar sesión -->
     <div class="flex-1 flex justify-end">
-      <button
-        @click="handleLogout"
-        class="logout-button flex items-center space-x-2 bg-[#F56462] text-white font-bold px-4 py-2 rounded-[10px] hover:bg-[#e05454] focus:outline-none">
-        <img src="../assets/icons/Resaltado/login-icon.svg" alt="Cerrar sesion" class="w-5 h-5" />
+      <button @click="handleLogout" aria-label="Cerrar sesión"
+        class="logout-button flex items-center space-x-2 bg-danger text-text-light font-bold px-4 py-2 rounded-ms hover:bg-danger-dark focus:outline-none">
+        <img src="../assets/icons/Resaltado/Simbolo/login-icon.svg" alt="Cerrar sesión" class="w-5 h-5" />
         <span>Salir</span>
       </button>
     </div>
   </nav>
 </template>
 
-
 <!-- Scripts -->
 <script setup>
-  import { useRouter } from "vue-router";
-  
-  const router = useRouter();
-  
-  // Funcion para salir
-  function handleLogout() {
-    router.push({ name: "login" });
-  }
-</script>
+//Importaciones
+import { useRouter } from "vue-router";
 
+//Variables
+const router = useRouter();
+
+// Función para cerrar sesión
+function handleLogout() {
+  router.push({ name: "Login" });
+}
+</script>
 
 <!-- Estilos -->
 <style scoped>
 /* Fuentes */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Josefin+Sans:wght@400;600&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Josefin+Sans:wght@400;600&display=swap");
 
-.font-poppins {
-  font-family: 'Poppins', sans-serif;
+.font-heading {
+  font-family: "Poppins", sans-serif;
 }
 
-.font-josefin {
-  font-family: 'Josefin Sans', sans-serif;
+.font-sans {
+  font-family: "Josefin Sans", sans-serif;
 }
 </style>
