@@ -36,7 +36,7 @@
             @click="selectCaja(caja)"
             class="caja-item p-1 pr-4 text-[#8A8A8A] font-bold bg-[#E0D3F5] flex items-center rounded-[20px] cursor-pointer"
           >
-          <div class="icon w-10 h-10 rounded-full flex items-center justify-center mr-4">
+            <div class="icon w-10 h-10 rounded-full flex items-center justify-center mr-4">
               <img src="../assets/icons/Resaltado/caja2-icon.svg" alt="Icono Cliente" class="w-8 h-8" />
             </div>
             <span>{{ caja.nombre }}</span>
@@ -51,61 +51,74 @@
         </div>
 
         <div v-if="selectedCaja" class="w-full h-min-content bg-[#8A8FB9] text-[24px] font-josefin p-8 rounded-[20px] text-[#4B3C68] font-semibold space-y-10">
-        <!-- Datos generales -->
-        <div class="flex justify-between items-center space-x-4">
-          <!-- Imagen caja -->
-          <div class="flex flex-col items-center w-1/2">
-            <strong class="whitespace-nowrap">Foto:</strong>
-            <div v-if="editMode" class="w-full">
-              <input v-model="selectedCaja.foto" type="text" placeholder="URL de la Foto" class="w-full p-2 rounded-md" />
+          <!-- Datos generales -->
+          <div class="flex justify-between items-center space-x-4">
+            <!-- Imagen caja -->
+            <div class="flex flex-col items-center w-1/2">
+              <strong class="whitespace-nowrap">Foto:</strong>
+              <div v-if="editMode" class="w-full">
+                <input v-model="selectedCaja.foto" type="text" placeholder="URL de la Foto" class="w-full p-2 rounded-md" />
+              </div>
+              <span v-else class="bg-[#E0D3F5] p-3 rounded-[10px]">
+                <img :src="selectedCaja.foto" alt="Foto de la Caja" class="w-32 h-32 object-cover rounded-full mx-auto" />
+              </span>
             </div>
-            <span v-else class="bg-[#E0D3F5] p-3 rounded-[10px]">
-              <img :src="selectedCaja.foto" alt="Foto de la Caja" class="w-32 h-32 object-cover rounded-full mx-auto" />
-            </span>
+
+            <!-- Nombre caja -->
+            <div class="flex flex-col w-1/2">
+              <strong class="whitespace-nowrap">Nombre:</strong>
+              <span v-if="!editMode" class="bg-[#E0D3F5] p-3 rounded-[10px] truncate">{{ selectedCaja.nombre }}</span>
+              <input v-else v-model="selectedCaja.nombre" type="text" placeholder="Nombre" class="w-full p-2 rounded-md" />
+            </div>
+
+            <!-- Precio y Stock -->
+            <div class="flex justify-between space-x-4">
+              <!-- Precio -->
+              <div class="flex flex-col w-1/2">
+                <strong class="whitespace-nowrap">Precio:</strong>
+                <span v-if="!editMode" class="bg-[#E0D3F5] p-3 rounded-[10px] truncate">{{ selectedCaja.precio }}</span>
+                <input v-else v-model="selectedCaja.precio" type="number" placeholder="Precio" class="w-full p-2 rounded-md" />
+              </div>
+
+              <!-- Stock -->
+              <div class="flex flex-col w-1/2">
+                <strong class="whitespace-nowrap">Stock:</strong>
+                <span v-if="!editMode" @click="editCaja" class="bg-[#E0D3F5] p-3 rounded-[10px] truncate">{{ selectedCaja.stock }}</span>
+                <input v-else v-model="selectedCaja.stock" type="number" placeholder="Stock" class="w-full p-2 rounded-md" />
+              </div>
+            </div>
           </div>
 
-          <!-- Nombre caja -->
-          <div class="flex flex-col w-1/2">
-            <strong class="whitespace-nowrap">Nombre:</strong>
-            <span v-if="!editMode" class="bg-[#E0D3F5] p-3 rounded-[10px] truncate">{{ selectedCaja.nombre }}</span>
-            <input v-else v-model="selectedCaja.nombre" type="text" placeholder="Nombre" class="w-full p-2 rounded-md" />
+          <!-- Descripcion caja -->
+          <div class="flex flex-col">
+            <strong>Descripción:</strong>
+            <span v-if="!editMode" class="bg-[#E0D3F5] p-3 rounded-[10px] truncate">{{ selectedCaja.descripcion }}</span>
+            <input v-else v-model="selectedCaja.descripcion" type="text" placeholder="Descripción" class="w-full p-2 rounded-md" />
           </div>
 
-        <!-- Descripción caja -->
-        <div class="flex flex-col w-full">
-          <strong class="whitespace-nowrap">Descripción:</strong>
-          <span v-if="!editMode" class="bg-[#E0D3F5] p-3 rounded-[10px] truncate">{{ selectedCaja.descripcion }}</span>
-          <input v-else v-model="selectedCaja.descripcion" type="text" placeholder="Descripción" class="w-full p-2 rounded-md" />
-        </div>
-        </div>
-
-
-        <!-- Precio y Stock -->
-        <div class="flex justify-between space-x-4">
-          <!-- Precio -->
-          <div class="flex flex-col w-1/2">
-            <strong class="whitespace-nowrap">Precio:</strong>
-            <span v-if="!editMode" class="bg-[#E0D3F5] p-3 rounded-[10px] truncate">{{ selectedCaja.precio }}</span>
-            <input v-else v-model="selectedCaja.precio" type="number" placeholder="Precio" class="w-full p-2 rounded-md" />
-          </div>
-
-          <!-- Stock -->
-          <div class="flex flex-col w-1/2">
-            <strong class="whitespace-nowrap">Stock:</strong>
-            <span v-if="!editMode" class="bg-[#E0D3F5] p-3 rounded-[10px] truncate">{{ selectedCaja.stock }}</span>
-            <input v-else v-model="selectedCaja.stock" type="number" placeholder="Stock" class="w-full p-2 rounded-md" />
+          <!-- Botones editar y eliminar -->
+          <div class="flex justify-around mt-6">
+            <button v-if="!editMode" @click="editMode = true" class="bg-[#EBBA53] text-black py-4 px-10 rounded-[50px]">Editar Datos</button>
+            <button v-if="editMode" @click="saveCaja" class="bg-[#95CF68] text-black py-4 px-10 rounded-[50px]">Confirmar</button>
+            <button v-if="!editMode" @click="showDeleteModal = true" class="bg-[#DA6B65] text-black py-4 px-10 rounded-[50px]">Eliminar Datos</button>
           </div>
         </div>
-
-        <!-- Botones editar y eliminar -->
-        <div class="flex justify-around mt-6">
-          <button v-if="!editMode" @click="editMode = true" class="bg-[#EBBA53] text-black py-4 px-10 rounded-[50px]">Editar Datos</button>
-          <button v-if="editMode" @click="saveCaja" class="bg-[#95CF68] text-black py-4 px-10 rounded-[50px]">Confirmar</button>
-          <button v-if="!editMode" @click="confirmDeleteCaja" class="bg-[#DA6B65] text-black py-4 px-10 rounded-[50px]">Eliminar Datos</button>
-        </div>
-      </div>
       </section>
     </div>
+
+    <!-- Ventana para eliminar -->
+    <transition name="slide">
+      <div v-if="showDeleteModal" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center ">
+        <div class="relative p-20 h-[#630px] bg-[#8568AD] rounded-[20px] text-center">
+          <!-- Contenido de la ventana -->
+          <p class="text-white font-bold mb-20 font-poppins text-[29px]">¿Estás seguro de eliminar?</p>
+          <div class="flex justify-between">
+            <button @click="deleteCaja" class="bg-[#95CF68] text-black py-4 px-20 rounded-[50px] font-josefin text-[26px]">Sí</button>
+            <button @click="showDeleteModal = false" class="bg-[#DA6B65] text-black py-4 px-20 rounded-[50px] font-josefin text-[26px]">No</button>
+          </div>
+        </div>
+      </div>
+    </transition>
   </main>
 </template>
 
@@ -117,32 +130,20 @@ import { ref, computed } from 'vue';
 
 // Datos de las cajas
 const cajas = ref([
-  { foto: 'https://via.placeholder.com/150', nombre: 'Caja Negra', descripcion: 'Cajaa negra con borde dorado hermoso', precio: 100, stock: 10 },
-  { foto: 'https://via.placeholder.com/150', nombre: 'Caja Blanca', descripcion: 'Cajaa negra con borde dorado hermoso', precio: 100, stock: 10 },
-  { foto: 'https://via.placeholder.com/150', nombre: 'Caja Azul', descripcion: 'Cajaa negra con borde dorado hermoso', precio: 100, stock: 10 },
-  { foto: 'https://via.placeholder.com/150', nombre: 'Caja Verde', descripcion: 'Cajaa negra con borde dorado hermoso', precio: 100, stock: 10 },
-  { foto: 'https://via.placeholder.com/150', nombre: 'Caja Gris', descripcion: 'Cajaa negra con borde dorado hermoso', precio: 100, stock: 10 },
-  { foto: 'https://via.placeholder.com/150', nombre: 'Caja Rosa', descripcion: 'Cajaa negra con borde dorado hermoso', precio: 100, stock: 10 },
-  { foto: 'https://via.placeholder.com/150', nombre: 'Caja Violeta', descripcion: 'Cajaa negra con borde dorado hermoso', precio: 100, stock: 10 },
-  { foto: 'https://via.placeholder.com/150', nombre: 'Caja Amarilla', descripcion: 'Cajaa negra con borde dorado hermoso', precio: 100, stock: 10 },
-  { foto: 'https://via.placeholder.com/150', nombre: 'Caja Negra', descripcion: 'Cajaa negra con borde dorado hermoso', precio: 100, stock: 10 },
-  { foto: 'https://via.placeholder.com/150', nombre: 'Caja Blanca', descripcion: 'Cajaa negra con borde dorado hermoso', precio: 100, stock: 10 },
-  { foto: 'https://via.placeholder.com/150', nombre: 'Caja Azul', descripcion: 'Cajaa negra con borde dorado hermoso', precio: 100, stock: 10 },
-  { foto: 'https://via.placeholder.com/150', nombre: 'Caja Verde', descripcion: 'Cajaa negra con borde dorado hermoso', precio: 100, stock: 10 },
-  { foto: 'https://via.placeholder.com/150', nombre: 'Caja Gris', descripcion: 'Cajaa negra con borde dorado hermoso', precio: 100, stock: 10 },
-  { foto: 'https://via.placeholder.com/150', nombre: 'Caja Rosa', descripcion: 'Cajaa negra con borde dorado hermoso', precio: 100, stock: 10 },
-  { foto: 'https://via.placeholder.com/150', nombre: 'Caja Violeta', descripcion: 'Cajaa negra con borde dorado hermoso', precio: 100, stock: 10 },
-  { foto: 'https://via.placeholder.com/150', nombre: 'Caja Amarilla', descripcion: 'Cajaa negra con borde dorado hermoso', precio: 100, stock: 10 },
+  { foto: 'https://via.placeholder.com/150', nombre: 'Caja Negra', descripcion: 'Caja negra con borde dorado hermoso', precio: 100, stock: 10 },
+  { foto: 'https://via.placeholder.com/150', nombre: 'Caja Blanca', descripcion: 'Caja blanca con un diseño elegante', precio: 90, stock: 5 },
+  { foto: 'https://via.placeholder.com/150', nombre: 'Caja Azul', descripcion: 'Caja azul con acabados premium', precio: 120, stock: 8 },
 ]);
 
-const selectedCaja = ref(null);
-const searchQuery = ref("");
-const showAddForm = ref(false);
-const editMode = ref(false);
-const newCaja = ref({ foto: '', nombre: '', descripcion: '', precio: 0, stock: 0 });
-const showDeleteConfirm = ref(false);
+// constatntes
+const selectedCaja = ref(null); 
+const searchQuery = ref(""); 
+const showAddForm = ref(false); 
+const editMode = ref(false); 
+const showDeleteModal = ref(false); 
+const newCaja = ref({ foto: '', nombre: '', descripcion: '', precio: 0, stock: 0 }); 
 
-// Filtrar cajas
+// Buscar por nombre
 const filteredCajas = computed(() => {
   return cajas.value.filter(caja => 
     caja.nombre.toLowerCase().includes(searchQuery.value.toLowerCase())
@@ -152,45 +153,31 @@ const filteredCajas = computed(() => {
 // Seleccionar caja
 function selectCaja(caja) {
   selectedCaja.value = caja;
-  showAddForm.value = false;
   editMode.value = false;
 }
 
 // Añadir caja
+function addCaja() {
+  cajas.value.push(newCaja.value);
+  newCaja.value = { foto: '', nombre: '', descripcion: '', precio: 0, stock: 0 };
+  showAddForm.value = false;
+}
+
+// Guardar cambios
 function saveCaja() {
-  if (editMode.value) {
-    Object.assign(selectedCaja.value, newCaja.value);
-  } else {
-    cajas.value.push({ ...newCaja.value });
-  }
-  resetForm();
-}
-
-// Editar caja
-function editCaja() {
-  editMode.value = true;
-  Object.assign(newCaja.value, selectedCaja.value);
-  showAddForm.value = true;
-}
-
-// Confirmar borrado
-function confirmDeleteCaja() {
-  showDeleteConfirm.value = true;
+  editMode.value = false;
 }
 
 // Eliminar caja
 function deleteCaja() {
-  cajas.value = cajas.value.filter(caja => caja !== selectedCaja.value);
-  selectedCaja.value = null;
-  showDeleteConfirm.value = false;
+  const index = cajas.value.indexOf(selectedCaja.value);
+  if (index !== -1) {
+    cajas.value.splice(index, 1);
+    selectedCaja.value = null;
+  }
+  showDeleteModal.value = false;
 }
 
-// Formulario en blanco
-function resetForm() {
-  newCaja.value = { foto: '', nombre: '', descripcion: '', precio: 0, stock: 0 };
-  showAddForm.value = false;
-  editMode.value = false;
-}
 </script>
 
 
@@ -221,5 +208,16 @@ main {
   100% {
     transform: translateX(0);
   }
+}
+
+/* Estilos para la imagen de la caja */
+label[for="image-upload"] {
+  display: inline-block;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+}
+
+label[for="image-upload"]:hover {
+  transform: scale(1.05);
 }
 </style>
