@@ -26,91 +26,102 @@
 
       <!-- Datos de las pedido -->
       <section
-        class="w-[850px] mx-auto p-6 h-[560px] bg-primary rounded-box shadow-pr flex flex-col items-center pb-10">
+        class="w-[850px] mx-auto p-6 h-auto bg-primary rounded-box shadow-pr flex flex-col items-center pb-10">
         <!-- Título de la sección -->
         <div class="flex items-center justify-center mb-6">
           <h2 class="text-[28px] md:text-[36px] font-bold text-white">Datos del pedido</h2>
         </div>
 
         <!-- Contenedor principal -->
-        <div class="w-full bg-secondary p-10 rounded-box text-neutral h-[570px]">
+        <div class="w-full bg-secondary p-10 h-[550px] rounded-box text-neutral">
 
-          <!-- Detalles de la pedido -->
-          <div v-if="selectedpedido && !isAddingNewpedido" class="space-y-4 h-[360px]">
-
-            <!-- Imagen -->
-            <div class="flex items-center">
-              <strong class="text-lg mr-2">Foto:</strong>
-              <!-- Normal -->
-              <div v-if="!editMode" class="flex items-center">
-                <span class="bg-light p-3 rounded-box w-36 h-36 md:w-40 md:h-40 flex justify-center items-center mr-2">
-                  <img :src="selectedpedido.foto" alt="Foto" class="w-full h-full object-cover rounded-md" />
+          <!-- Detalles del pedido -->
+          <div v-if="selectedpedido" class="grid grid-cols-2 gap-6 ">
+            
+            <!-- Estado del Pedido -->
+            <div class="flex flex-col gap-2">
+              <strong class="text-lg">Estado del pedido:</strong>
+              <div class="flex items-center gap-3 bg-light p-3 rounded-md space-x-2">
+                <!-- Círculo y texto del estado -->
+                <div
+                  :class="[
+                    'w-5 h-5 rounded-full flex justify-center items-center',
+                    selectedpedido.estado === 'Pendiente' ? 'bg-[#F6C23E]' : 'bg-[#28A745]'
+                  ]"
+                ></div>
+                <span class="text-lg font-medium">
+                  {{ selectedpedido.estado === 'Pendiente' ? 'Pendiente' : 'Entregado' }}
                 </span>
               </div>
-
-              <!-- Nombre -->
-              <div class="flex flex-col ml-4">
-                <strong class="text-lg">Nombre:</strong>
-                <!-- Normal -->
-                <div v-if="!editMode" class="flex items-center bg-light p-3 rounded-md space-x-2 w-[290px] ">
-                  <img src="../../assets/icons/Resaltado/Simbolo/namelast-icon.svg" alt="Nombre Icono"
-                    class="w-6 h-6" />
-                  <span class="truncate">{{ selectedpedido.nombre }}</span>
-                </div>
-              </div>
-
-              <!-- Precio y Stock -->
-              <div class="flex md:space-y-0 w-[200px]">
-                <!-- Precio -->
-                <div class="flex-1 md:mr-2">
-                  <strong class="text-lg">Precio:</strong>
-                  <!-- Normal -->
-                  <div v-if="!editMode" class="flex items-center bg-light p-3 pl-0 rounded-md space-x-2 ml-4">
-                    <img src="../../assets/icons/Resaltado/Simbolo/dinero-icon.svg" alt="Precio Icono"
-                      class="w-6 h-6" />
-                    <span>{{ selectedpedido.precio }}</span>
-                  </div>
-                </div>
-
-                <!-- Stock -->
-                <div class="flex-1 md:ml-2">
-                  <strong class="text-lg">Stock:</strong>
-                  <!-- Normal -->
-                  <div v-if="!editMode" class="flex items-center bg-light p-3 pl-2 rounded-md space-x-2">
-                    <img src="../../assets/icons/Resaltado/Simbolo/stock-icon.svg" alt="Stock Icono" class="w-6 h-6" />
-                    <span>{{ selectedpedido.stock }}</span>
-                  </div>
-                </div>
-              </div>
             </div>
 
-            <!-- Descripción -->
+            <!-- Nombre del Cliente -->
             <div class="flex flex-col">
-              <strong class="text-lg">Descripción:</strong>
-              <!-- Normal -->
-              <div v-if="!editMode" class="flex items-center bg-light p-3 rounded-md space-x-2 pb-14">
-                <img src="../../assets/icons/Resaltado/Simbolo/descripcion-icon.svg" alt="Precio Icono"
-                  class="w-6 h-6 " />
-                <p>{{ selectedpedido.descripcion }}</p>
+              <strong class="text-lg mb-2">Nombre del Cliente:</strong>
+              <div class="flex items-center bg-light p-3 rounded-md space-x-2">
+                <img src="../../assets/icons/Resaltado/Simbolo/namelast-icon.svg" alt="Nombre Icono" class="w-6 h-6" />
+                <span class="truncate">{{ selectedpedido.cliente }}</span>
               </div>
             </div>
 
-            <!-- Botones -->
-            <div class="flex justify-around pt-3">
-              <button v-if="!editMode" @click="editMode = true" class="bg-warning text-black py-3 px-12 rounded-md">
-                Editar
-              </button>
-              <button v-if="editMode" @click="savepedido" class="bg-success text-black py-3 px-12 rounded-md">
-                Guardar
-              </button>
-              <button @click="openDeleteConfirm(selectedpedido)" class="bg-danger text-black py-3 px-12 rounded-md">
-                Eliminar
-              </button>
+            <!-- Dirección -->
+            <div class="flex flex-col">
+              <strong class="text-lg mb-2">Dirección:</strong>
+              <div class="flex items-center bg-light p-3 rounded-md space-x-2">
+                <img src="../../assets/icons/Resaltado/Simbolo/address-icon.svg" alt="Dirección Icono" class="w-6 h-6" />
+                <span class="truncate">{{ selectedpedido.direccion }}</span>
+              </div>
+            </div>
+
+            <!-- Fecha del Pedido -->
+            <div class="flex flex-col">
+              <strong class="text-lg mb-2">Fecha del Pedido:</strong>
+              <div class="flex items-center bg-light p-3 rounded-md space-x-2">
+                <img src="../../assets/icons/Resaltado/Simbolo/calendar-icon.svg" alt="Fecha Icono" class="w-6 h-6" />
+                <span>{{ selectedpedido.fecha }}</span>
+              </div>
+            </div>
+
+            <!-- Precio -->
+            <div class="flex flex-col">
+              <strong class="text-lg mb-2">Precio:</strong>
+              <div v-if="!editMode" class="flex items-center bg-light p-3 rounded-md space-x-2">
+                <img src="../../assets/icons/Resaltado/Simbolo/dinero-icon.svg" alt="Precio Icono" class="w-6 h-6" />
+                <span>${{ selectedpedido.precio }}</span>
+              </div>
+            </div>
+
+            <!-- Foto del Pedido -->
+            <div class="flex flex-col">
+              <strong class="text-lg mb-2">Foto del Pedido:</strong>
+              <div class="bg-light p-3 rounded-md flex justify-center items-center">
+                <img :src="selectedpedido.foto" alt="Foto" class="w-full h-full object-cover rounded-md" />
+              </div>
+            </div>
+
+            <!-- Lista de Materiales -->
+            <div class="flex flex-col">
+              <strong class="text-lg mb-2">Materiales:</strong>
+              <ul class="list-disc list-inside bg-light p-3 rounded-md">
+                <li v-for="(material, index) in selectedpedido.materiales" :key="index" class="truncate">
+                  {{ material }}
+                </li>
+              </ul>
             </div>
           </div>
 
+
+
+          <!-- Botón de eliminar -->
+          <div class="flex justify-center pt-6" v-if="selectedpedido">
+            <button @click="openDeleteConfirm(selectedpedido)" class="bg-danger text-black py-3 px-12 rounded-md">
+              Eliminar Pedido
+            </button>
+            
+          </div>
         </div>
       </section>
+
 
       <!-- Ventana Emergente -->
       <transition name="slide">
@@ -159,16 +170,16 @@ const isAddingNewpedido = ref(false);
 const selectedpedido = ref(null);
 const editMode = ref(false);
 const pedidos = reactive([
-  { nombre: 'Pedido 1', descripcion: 'Rollo de papel decorativo con diseños festivos', precio: '3.50', stock: 200, foto: null },
-  { nombre: 'Pedido 2', descripcion: 'Cinta de satén para envolver regalos, 10m', precio: '2.00', stock: 150, foto: null },
-  { nombre: 'Pedido 3', descripcion: 'Ramo de flores decorativas para adornar', precio: '5.50', stock: 100, foto: null },
-  { nombre: 'Pedido 4', descripcion: 'Set de 10 tarjetas para mensajes', precio: '4.00', stock: 300, foto: null },
-  { nombre: 'Pedido 5', descripcion: 'Frasco de brillantina dorada, 200g', precio: '3.00', stock: 80, foto: null },
-  { nombre: 'Pedido 6', descripcion: 'Pack de 50 pegatinas temáticas', precio: '1.50', stock: 400, foto: null },
-  { nombre: 'Pedido 7', descripcion: 'Rollo de papel crepé de colores', precio: '1.75', stock: 200, foto: null },
-  { nombre: 'Pedido 8', descripcion: 'Mini luces LED para decorar regalos', precio: '6.00', stock: 50, foto: null },
-  { nombre: 'Pedido 9', descripcion: 'Bolsa de perlas para adornos', precio: '3.25', stock: 120, foto: null },
-  { nombre: 'Pedido 10', descripcion: 'Rosa natural tratada para durar años', precio: '10.00', stock: 30, foto: null },
+  { nombre: 'Pedido 1', descripcion: 'Rollo de papel decorativo con diseños festivos', precio: '3.50', stock: 200, foto: null, estado: 'Pendiente' },
+  { nombre: 'Pedido 2', descripcion: 'Cinta de satén para envolver regalos, 10m', precio: '2.00', stock: 150, foto: null, estado: 'Entregado' },
+  { nombre: 'Pedido 3', descripcion: 'Ramo de flores decorativas para adornar', precio: '5.50', stock: 100, foto: null, estado: 'Pendiente' },
+  { nombre: 'Pedido 4', descripcion: 'Set de 10 tarjetas para mensajes', precio: '4.00', stock: 300, foto: null, estado: 'Pendiente' },
+  { nombre: 'Pedido 5', descripcion: 'Frasco de brillantina dorada, 200g', precio: '3.00', stock: 80, foto: null, estado: 'Entregado' },
+  { nombre: 'Pedido 6', descripcion: 'Pack de 50 pegatinas temáticas', precio: '1.50', stock: 400, foto: null, estado: 'Pendiente' },
+  { nombre: 'Pedido 7', descripcion: 'Rollo de papel crepé de colores', precio: '1.75', stock: 200, foto: null, estado: 'Entregado' },
+  { nombre: 'Pedido 8', descripcion: 'Mini luces LED para decorar regalos', precio: '6.00', stock: 50, foto: null, estado: 'Pendiente' },
+  { nombre: 'Pedido 9', descripcion: 'Bolsa de perlas para adornos', precio: '3.25', stock: 120, foto: null, estado: 'Pendiente' },
+  { nombre: 'Pedido 10', descripcion: 'Rosa natural tratada para durar años', precio: '10.00', stock: 30, foto: null, estado: 'Pendiente' },
 ]);
 const searchQuery = ref('');
 const filteredpedidos = computed(() => {
@@ -189,12 +200,20 @@ const selectpedido = (pedido) => {
   editMode.value = false;
 };
 
+// Alternar estado del pedido
+const cambiarEstado = () => {
+  if (selectedpedido.value) {
+    selectedpedido.value.estado =
+      selectedpedido.value.estado === 'Pendiente' ? 'Entregado' : 'Pendiente';
+  }
+};
+
 // Guarda los cambios
 const savepedido = () => {
   editMode.value = false;
 };
 
-// Confirmar la eliminacion
+// Confirmar la eliminación
 const openDeleteConfirm = (pedido) => {
   pedidoToDelete.value = pedido;
   showDeleteConfirm.value = true;
