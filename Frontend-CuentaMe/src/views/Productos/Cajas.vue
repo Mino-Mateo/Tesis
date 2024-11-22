@@ -280,13 +280,14 @@ const newCaja = reactive({
   stock: "",
   foto: null,
 });
+
 const cajas = reactive([
   {
     nombre: "Caja romántica",
     descripcion: "Caja en forma de corazón, ideal para San Valentín",
     precio: "8.00",
     stock: 50,
-    foto: null,
+    foto: '../../assets/icons/Cajas/Caja_1.png',
   },
   {
     nombre: "Caja de lujo",
@@ -345,6 +346,7 @@ const cajas = reactive([
     stock: 25,
   },
 ]);
+
 const searchQuery = ref("");
 const filteredCajas = computed(() => {
   return cajas.filter((caja) =>
