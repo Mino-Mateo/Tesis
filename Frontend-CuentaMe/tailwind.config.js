@@ -27,7 +27,7 @@ export default {
         // Colores de texto
         'text-light': '#F7F7F7',       // Texto claro
         'text-dark': '#333333',        // Texto oscuro
-        
+
         // Colores de fondo
         'bg-light': '#F5F5F5',         // Fondo claro
         'bg-dark': '#2C2C2C',          // Fondo oscuro
@@ -47,7 +47,7 @@ export default {
         button: '50px',     // Borde de botones
         'card': '12px',     // Borde para tarjetas
         'input': '8px',     // Borde para inputs
-        ms: '10px',        // Muestreo
+        ms: '10px',         // Muestreo
       },
       
       // Sombras personalizadas

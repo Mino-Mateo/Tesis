@@ -15,7 +15,7 @@
           </h2>
         </div>
 
-        <!-- Lista de pedidos con scroll -->
+        <!-- Lista de pedidos-->
         <div class="h-[450px] overflow-y-auto space-y-4 pr-5">
           <div v-for="(pedido, index) in filteredpedidos" :key="index" @click="selectpedido(pedido)"
             class="pedido-item p-1 pr-4 text-simple font-bold bg-light flex items-center rounded-box cursor-pointer h-12">
@@ -167,6 +167,20 @@
         </div>
       </section>
     </div>
+
+    <!-- Historial de Pedidos -->
+    <section class="flex w-[1250px] items-center overflow-x-auto justify-center bg-primary p-5 pb mt-6 mb-6 rounded-box shadow-pr">
+      <h2 class="text-[28px] md:text-[30px] justify-center align-center font-bold text-white text-center mb-4 mr-5">Historial</h2>
+      <div class="overflow-x-auto space-x-4 flex">
+        <div v-for="(pedido, index) in entregadosPedidos" :key="index" class="w-screen pedido-item p-1 pr-4 text-simple font-bold bg-light flex items-center rounded-box cursor-pointer h-14">
+          <div :class="[
+            'w-5 h-5 flex items-center justify-center ml-4 mr-4 rounded-full',
+            pedido.estado === 'Entregado' ? 'bg-[#28A745]' : 'bg-[#F6C23E]',
+          ]"></div>
+          <span>{{ pedido.nombre }}</span>
+        </div>
+      </div>
+    </section>
   </main>
 </template>
 
@@ -481,6 +495,54 @@ const pedidos = reactive([
     foto: ("../../assets/icons/Cajas/Caja_1.png"),
   },
   {
+    nombre: "Pedido 4",
+    cliente: clientes.value[3].nombre + " " + clientes.value[3].apellido,
+    direccion: clientes.value[3].direccion,
+    fecha: "2024-11-18",
+    precio: "65.20",
+    materiales: [
+      materiales[3].nombre,
+      materiales[4].nombre,
+      materiales[6].nombre,
+      materiales[9].nombre,
+    ],
+    caja: cajas[4],
+    estado: "Pendiente",
+  },
+  {
+    nombre: "Pedido 7",
+    cliente: clientes.value[6].nombre + " " + clientes.value[6].apellido,
+    direccion: clientes.value[6].direccion,
+    fecha: "2024-11-15",
+    precio: "40.90",
+    materiales: [
+      materiales[2].nombre,
+      materiales[3].nombre,
+      materiales[8].nombre,
+    ],
+    caja: cajas[7],
+    estado: "Pendiente",
+  },
+  {
+    nombre: "Pedido 9",
+    cliente: clientes.value[8].nombre + " " + clientes.value[8].apellido,
+    direccion: clientes.value[8].direccion,
+    fecha: "2024-11-13",
+    precio: "75.00",
+    materiales: [
+      materiales[2].nombre,
+      materiales[4].nombre,
+      materiales[6].nombre,
+      materiales[7].nombre,
+      materiales[9].nombre,
+    ],
+    caja: cajas[9],
+    estado: "Pendiente",
+  },
+]);
+
+const entregadosPedidos = reactive([
+  {
     nombre: "Pedido 2",
     cliente: clientes.value[1].nombre + " " + clientes.value[1].apellido,
     direccion: clientes.value[1].direccion,
@@ -492,7 +554,7 @@ const pedidos = reactive([
       materiales[7].nombre,
     ],
     caja: cajas[2],
-    estado: "Enviado",
+    estado: "Entregado",
   },
   {
     nombre: "Pedido 3",
@@ -511,21 +573,6 @@ const pedidos = reactive([
     estado: "Entregado",
   },
   {
-    nombre: "Pedido 4",
-    cliente: clientes.value[3].nombre + " " + clientes.value[3].apellido,
-    direccion: clientes.value[3].direccion,
-    fecha: "2024-11-18",
-    precio: "65.20",
-    materiales: [
-      materiales[3].nombre,
-      materiales[4].nombre,
-      materiales[6].nombre,
-      materiales[9].nombre,
-    ],
-    caja: cajas[4],
-    estado: "Pendiente",
-  },
-  {
     nombre: "Pedido 5",
     cliente: clientes.value[4].nombre + " " + clientes.value[4].apellido,
     direccion: clientes.value[4].direccion,
@@ -538,7 +585,7 @@ const pedidos = reactive([
       materiales[8].nombre,
     ],
     caja: cajas[5],
-    estado: "Enviado",
+    estado: "Entregado",
   },
   {
     nombre: "Pedido 6",
@@ -555,20 +602,6 @@ const pedidos = reactive([
     estado: "Entregado",
   },
   {
-    nombre: "Pedido 7",
-    cliente: clientes.value[6].nombre + " " + clientes.value[6].apellido,
-    direccion: clientes.value[6].direccion,
-    fecha: "2024-11-15",
-    precio: "40.90",
-    materiales: [
-      materiales[2].nombre,
-      materiales[3].nombre,
-      materiales[8].nombre,
-    ],
-    caja: cajas[7],
-    estado: "Pendiente",
-  },
-  {
     nombre: "Pedido 8",
     cliente: clientes.value[7].nombre + " " + clientes.value[7].apellido,
     direccion: clientes.value[7].direccion,
@@ -581,23 +614,7 @@ const pedidos = reactive([
       materiales[9].nombre,
     ],
     caja: cajas[8],
-    estado: "Enviado",
-  },
-  {
-    nombre: "Pedido 9",
-    cliente: clientes.value[8].nombre + " " + clientes.value[8].apellido,
-    direccion: clientes.value[8].direccion,
-    fecha: "2024-11-13",
-    precio: "75.00",
-    materiales: [
-      materiales[2].nombre,
-      materiales[4].nombre,
-      materiales[6].nombre,
-      materiales[7].nombre,
-      materiales[9].nombre,
-    ],
-    caja: cajas[9],
-    estado: "Pendiente",
+    estado: "Entregado",
   },
   {
     nombre: "Pedido 10",
