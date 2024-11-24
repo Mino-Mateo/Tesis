@@ -1,11 +1,11 @@
 <!-- HTML -->
 <template>
+  <main id="main" class="flex flex-col w-full min-h-screen pt-0">
   <!-- Navbar -->
   <Navbar />
 
-  <main id="main" class="flex flex-col w-full min-h-screen pl-10 pt-0">
     <!-- Contenedor principal -->
-    <div class="flex w-full  h-full gap-6 mt-[26px]">
+    <div class="flex w-full  h-full gap-6 mt-[26px] pl-10">
 
       <!-- Contenedor clientes -->
       <section class="w-1/3 max-w-xs p-5 h-[560px] bg-primary rounded-box shadow-pr">
@@ -37,7 +37,7 @@
         </div>
 
         <!-- Contenedor principal -->
-        <div class="w-full h-[560px] bg-secondary p-6 rounded-box text-neutral font-semibold space-y-6">
+        <div class="w-full bg-secondary p-10 rounded-box text-neutral">
           <div v-if="selectedCliente" class="space-y-4">
             <!-- Correo -->
             <div class="grid grid-cols-1 gap-6">

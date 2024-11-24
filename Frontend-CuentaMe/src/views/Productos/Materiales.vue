@@ -1,11 +1,12 @@
 <!-- HTML -->
 <template>
+  <main id="main" class="flex flex-col w-full min-h-screen pt-0">
+
   <!-- Navbar -->
   <Navbar />
 
-  <main id="main" class="flex flex-col w-full min-h-screen pl-10 pt-0">
     <!-- Contenedor principal -->
-    <div class="flex w-full gap-6 mt-[26px]">
+    <div class="flex w-full gap-6 mt-[26px] pl-10">
       <!-- Contenedor materiales -->
       <section class="w-1/3 max-w-xs p-5 h-[560px] bg-primary rounded-box shadow-pr">
         <!-- Añadir material -->
@@ -28,7 +29,7 @@
           <div v-for="(material, index) in filteredmateriales" :key="index" @click="selectmaterial(material)"
             class="material-item p-1 pr-4 text-simple font-bold bg-light flex items-center rounded-box cursor-pointer">
             <div class="icon w-10 h-10 flex items-center justify-center mr-4">
-              <img src="../../assets/icons/Resaltado/Simbolo/flor2-icon.svg" alt="Icono Cliente" class="w-8 h-8" />
+              <img src="../../assets/icons/Resaltado/Simbolo/flower-icon.svg" alt="Icono Cliente" class="w-8 h-8" />
             </div>
             <span>{{ material.nombre }}</span>
           </div>
@@ -41,12 +42,12 @@
         <!-- Título de la sección -->
         <div class="flex items-center justify-center mb-6">
           <h2 class="text-[28px] md:text-[36px] font-bold text-white">
-            Datos del material
+            Datos del Material
           </h2>
         </div>
 
         <!-- Contenedor principal -->
-        <div class="w-full bg-secondary p-10 rounded-box text-neutral h-[570px]">
+        <div class="w-full bg-secondary p-10 rounded-box text-neutral">
           <!-- Formulario de nueva material -->
           <div v-if="isAddingNewmaterial && !selectedmaterial" class="space-y-4">
             <h3 class="text-white font-bold text-lg">Nueva material</h3>
@@ -114,13 +115,13 @@
                   accept="image/png, image/jpeg, image/jpg" />
                 <label for="fileInput"
                   class="cursor-pointer bg-light p-3 rounded-box w-36 h-36 md:w-40 md:h-40 flex justify-center items-center">
-                  <img :src="placeholderImage" alt="Placeholder" class="w-full h-full object-cover rounded-box" />
+                  <img :src="placeholderImage" alt="Placeholder" class="w-full h-full object-cover" />
                 </label>
               </div>
               <!-- Normal -->
               <div v-if="!editMode" class="flex items-center">
-                <span class="bg-light p-3 rounded-box w-36 h-36 md:w-40 md:h-40 flex justify-center items-center mr-2">
-                  <img :src="selectedmaterial.foto" alt="Foto" class="w-full h-full object-cover rounded-md" />
+                <span class="bg-light p-3 rounded-box w-36 h-36 md:w-40 md:h-40 flex justify-center items-center">
+                  <img :src="selectedmaterial.foto" alt="Foto" class="w-full h-full object-cover" />
                 </span>
               </div>
 
@@ -128,7 +129,7 @@
               <div class="flex flex-col ml-4">
                 <strong class="text-lg">Nombre:</strong>
                 <!-- Normal -->
-                <div v-if="!editMode" class="flex items-center bg-light p-3 rounded-md space-x-2 w-[290px]">
+                <div v-if="!editMode" class="flex items-center bg-light p-3 rounded-md space-x-2 w-[200px] mr-5">
                   <img src="../../assets/icons/Resaltado/Simbolo/namelast-icon.svg" alt="Nombre Icono"
                     class="w-6 h-6" />
                   <span class="truncate">{{ selectedmaterial.nombre }}</span>
@@ -137,17 +138,17 @@
                 <div v-if="editMode" class="flex items-center bg-light p-3 rounded-md space-x-2 w-[200px] mr-5">
                   <img src="../../assets/icons/Resaltado/Simbolo/namelast-icon.svg" alt="Nombre Icono"
                     class="w-6 h-6" />
-                  <input v-model="selectedmaterial.nombre" type="text" class="bg-light rounded-md space-x-2" />
+                  <input v-model="selectedmaterial.nombre" type="text" class="bg-light rounded-md space-x-2 w-[145px]" />
                 </div>
               </div>
 
               <!-- Precio y Stock -->
-              <div class="flex md:space-y-0 w-[200px]">
+              <div class="flex flex-col md:flex-row gap-6 w-full">
                 <!-- Precio -->
-                <div class="flex-1 md:mr-2">
+                <div class="flex flex-col w-full md:w-1/2 ml-5">
                   <strong class="text-lg">Precio:</strong>
                   <!-- Normal -->
-                  <div v-if="!editMode" class="flex items-center bg-light p-3 pl-0 rounded-md space-x-2 ml-4" min="0"
+                  <div v-if="!editMode" class="flex items-center bg-light p-3 pl-0 rounded-md space-x-2 w-[100px]" min="0"
                     step="1">
                     <img src="../../assets/icons/Resaltado/Simbolo/dinero-icon.svg" alt="Precio Icono"
                       class="w-6 h-6" />
@@ -158,16 +159,16 @@
                     <img src="../../assets/icons/Resaltado/Simbolo/dinero-icon.svg" alt="Precio Icono"
                       class="w-6 h-6" />
                     <input v-model="selectedmaterial.precio" type="number"
-                      class="flex items-center bg-light rounded-md space-x-2 w-[50px]" min="0" step="0.01"
+                      class="flex items-center bg-light rounded-md space-x-2 w-[60px]" min="0" step="0.01"
                       oninput="this.value = parseFloat(this.value).toFixed(2)" />
                   </div>
                 </div>
 
                 <!-- Stock -->
-                <div class="flex-1 md:ml-2">
+                <div class="flex flex-col w-full md:w-1/2">
                   <strong class="text-lg">Stock:</strong>
                   <!-- Normal -->
-                  <div v-if="!editMode" class="flex items-center bg-light p-3 pl-2 rounded-md space-x-2">
+                  <div v-if="!editMode" class="flex items-center bg-light p-3 pl-2 rounded-md space-x-2 w-[100px]">
                     <img src="../../assets/icons/Resaltado/Simbolo/stock-icon.svg" alt="Stock Icono" class="w-6 h-6" />
                     <span>{{ selectedmaterial.stock }}</span>
                   </div>
@@ -186,7 +187,7 @@
             <div class="flex flex-col">
               <strong class="text-lg">Descripción:</strong>
               <!-- Normal -->
-              <div v-if="!editMode" class="flex items-center bg-light p-3 rounded-md space-x-2 pb-14">
+              <div v-if="!editMode" class="flex bg-light p-3 rounded-md space-x-2">
                 <img src="../../assets/icons/Resaltado/Simbolo/descripcion-icon.svg" alt="Precio Icono"
                   class="w-6 h-6" />
                 <p>{{ selectedmaterial.descripcion }}</p>
@@ -229,7 +230,7 @@
 
             <!-- Mensaje de confirmacion -->
             <h3 class="text-white font-bold mb-4 text-center text-[24px]">
-              ¿Estás seguro de eliminar el material?
+              ¿Estás seguro de eliminar la material?
             </h3>
             <img src="../../assets/icons/Resaltado/Alerta/alert-icon.svg" alt="Advertencia"
               class="w-20 h-20 mx-auto mb-4" />
@@ -264,6 +265,7 @@
   </main>
 </template>
 
+<!-- Scripts -->
 <script setup>
 // Importaciones
 import { ref, reactive, computed, watch } from "vue";
@@ -282,16 +284,69 @@ const newmaterial = reactive({
 });
 
 const materiales = reactive([
-  { nombre: 'Papel de regalo', descripcion: 'Rollo de papel decorativo con diseños festivos', precio: '3.50', stock: 200, foto: null },
-  { nombre: 'Cinta de satén', descripcion: 'Cinta de satén para envolver regalos, 10m', precio: '2.00', stock: 150, foto: null },
-  { nombre: 'Flores artificiales', descripcion: 'Ramo de flores decorativas para adornar', precio: '5.50', stock: 100, foto: null },
-  { nombre: 'Tarjetas personalizables', descripcion: 'Set de 10 tarjetas para mensajes', precio: '4.00', stock: 300, foto: null },
-  { nombre: 'Brillantina', descripcion: 'Frasco de brillantina dorada, 200g', precio: '3.00', stock: 80, foto: null },
-  { nombre: 'Pegatinas decorativas', descripcion: 'Pack de 50 pegatinas temáticas', precio: '1.50', stock: 400, foto: null },
-  { nombre: 'Cintas de papel crepé', descripcion: 'Rollo de papel crepé de colores', precio: '1.75', stock: 200, foto: null },
-  { nombre: 'Cajas de luces LED', descripcion: 'Mini luces LED para decorar regalos', precio: '6.00', stock: 50, foto: null },
-  { nombre: 'Perlas decorativas', descripcion: 'Bolsa de perlas para adornos', precio: '3.25', stock: 120, foto: null },
-  { nombre: 'Rosas preservadas', descripcion: 'Rosa natural tratada para durar años', precio: '10.00', stock: 30, foto: null },
+  {
+    nombre: "material romántica",
+    descripcion: "material en forma de corazón, ideal para San Valentín",
+    precio: "8.00",
+    stock: 50,
+    foto: '../../assets/icons/materiales/material_1.png',
+  },
+  {
+    nombre: "material de lujo",
+    descripcion: "material negra con acabado mate y lazo dorado",
+    precio: "15.00",
+    stock: 30,
+    foto: null,
+  },
+  {
+    nombre: "material sorpresa",
+    descripcion: "material con tapa que se despliega al abrirse",
+    precio: "10.00",
+    stock: 40,
+    foto: null,
+  },
+  {
+    nombre: "material transparente",
+    descripcion: "material acrílica para mostrar el contenido",
+    precio: "12.00",
+    stock: 60,
+  },
+  {
+    nombre: "material de fiesta",
+    descripcion: "material con diseños coloridos para cumpleaños",
+    precio: "5.00",
+    stock: 100,
+  },
+  {
+    nombre: "material rústica",
+    descripcion: "material de madera con estilo vintage",
+    precio: "18.00",
+    stock: 20,
+  },
+  {
+    nombre: "material con ventana",
+    descripcion: "material de cartón con ventana transparente",
+    precio: "7.00",
+    stock: 70,
+  },
+  {
+    nombre: "material metálica decorativa",
+    descripcion: "material metálica con estampados de amor",
+    precio: "9.50",
+    stock: 40,
+  },
+  {
+    nombre: "material temática navideña",
+    descripcion: "material con diseños de Navidad y cinta roja",
+    precio: "6.00",
+    stock: 80,
+  },
+  {
+    nombre: "material con luces",
+    descripcion: "material decorada con luces LED integradas",
+    precio: "14.00",
+    stock: 25,
+  },
 ]);
 
 const searchQuery = ref("");
@@ -304,9 +359,8 @@ const showDeleteConfirm = ref(false);
 const materialToDelete = ref(null);
 const showError = ref(false);
 const placeholderImage = ref("@/assets/icons/Temas/placeholder.jpg");
-const showConfirmation = ref(false);
 
-/* *** Funciones *** */
+/* Funciones */
 // Alterna entre crear y ver material
 const toggleAddNewmaterial = () => {
   isAddingNewmaterial.value = !isAddingNewmaterial.value;
@@ -388,10 +442,6 @@ const savematerial = () => {
   editMode.value = false;
 };
 
-// Función para cerrar la ventana emergente
-function closeConfirmation() {
-  showConfirmation.value = false;
-}
 
 // Escoger una imagen
 const onImageSelected = (event) => {

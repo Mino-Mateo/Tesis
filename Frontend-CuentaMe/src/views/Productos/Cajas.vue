@@ -1,11 +1,12 @@
 <!-- HTML -->
 <template>
+  <main id="main" class="flex flex-col w-full min-h-screen pt-0">
+
   <!-- Navbar -->
   <Navbar />
 
-  <main id="main" class="flex flex-col w-full min-h-screen pl-10 pt-0">
     <!-- Contenedor principal -->
-    <div class="flex w-full gap-6 mt-[26px]">
+    <div class="flex w-full gap-6 mt-[26px] pl-10">
       <!-- Contenedor cajas -->
       <section class="w-1/3 max-w-xs p-5 h-[560px] bg-primary rounded-box shadow-pr">
         <!-- Añadir Caja -->
@@ -46,7 +47,7 @@
         </div>
 
         <!-- Contenedor principal -->
-        <div class="w-full bg-secondary p-10 rounded-box text-neutral h-[570px]">
+        <div class="w-full bg-secondary p-10 rounded-box text-neutral">
           <!-- Formulario de nueva caja -->
           <div v-if="isAddingNewCaja && !selectedCaja" class="space-y-4">
             <h3 class="text-white font-bold text-lg">Nueva Caja</h3>
@@ -114,13 +115,13 @@
                   accept="image/png, image/jpeg, image/jpg" />
                 <label for="fileInput"
                   class="cursor-pointer bg-light p-3 rounded-box w-36 h-36 md:w-40 md:h-40 flex justify-center items-center">
-                  <img :src="placeholderImage" alt="Placeholder" class="w-full h-full object-cover rounded-box" />
+                  <img :src="placeholderImage" alt="Placeholder" class="w-full h-full object-cover" />
                 </label>
               </div>
               <!-- Normal -->
               <div v-if="!editMode" class="flex items-center">
-                <span class="bg-light p-3 rounded-box w-36 h-36 md:w-40 md:h-40 flex justify-center items-center mr-2">
-                  <img :src="selectedCaja.foto" alt="Foto" class="w-full h-full object-cover rounded-md" />
+                <span class="bg-light p-3 rounded-box w-36 h-36 md:w-40 md:h-40 flex justify-center items-center">
+                  <img :src="selectedCaja.foto" alt="Foto" class="w-full h-full object-cover" />
                 </span>
               </div>
 
@@ -128,7 +129,7 @@
               <div class="flex flex-col ml-4">
                 <strong class="text-lg">Nombre:</strong>
                 <!-- Normal -->
-                <div v-if="!editMode" class="flex items-center bg-light p-3 rounded-md space-x-2 w-[290px]">
+                <div v-if="!editMode" class="flex items-center bg-light p-3 rounded-md space-x-2 w-[200px] mr-5">
                   <img src="../../assets/icons/Resaltado/Simbolo/namelast-icon.svg" alt="Nombre Icono"
                     class="w-6 h-6" />
                   <span class="truncate">{{ selectedCaja.nombre }}</span>
@@ -137,17 +138,17 @@
                 <div v-if="editMode" class="flex items-center bg-light p-3 rounded-md space-x-2 w-[200px] mr-5">
                   <img src="../../assets/icons/Resaltado/Simbolo/namelast-icon.svg" alt="Nombre Icono"
                     class="w-6 h-6" />
-                  <input v-model="selectedCaja.nombre" type="text" class="bg-light rounded-md space-x-2" />
+                  <input v-model="selectedCaja.nombre" type="text" class="bg-light rounded-md space-x-2 w-[145px]" />
                 </div>
               </div>
 
               <!-- Precio y Stock -->
-              <div class="flex md:space-y-0 w-[200px]">
+              <div class="flex flex-col md:flex-row gap-6 w-full">
                 <!-- Precio -->
-                <div class="flex-1 md:mr-2">
+                <div class="flex flex-col w-full md:w-1/2 ml-5">
                   <strong class="text-lg">Precio:</strong>
                   <!-- Normal -->
-                  <div v-if="!editMode" class="flex items-center bg-light p-3 pl-0 rounded-md space-x-2 ml-4" min="0"
+                  <div v-if="!editMode" class="flex items-center bg-light p-3 pl-0 rounded-md space-x-2 w-[100px]" min="0"
                     step="1">
                     <img src="../../assets/icons/Resaltado/Simbolo/dinero-icon.svg" alt="Precio Icono"
                       class="w-6 h-6" />
@@ -158,16 +159,16 @@
                     <img src="../../assets/icons/Resaltado/Simbolo/dinero-icon.svg" alt="Precio Icono"
                       class="w-6 h-6" />
                     <input v-model="selectedCaja.precio" type="number"
-                      class="flex items-center bg-light rounded-md space-x-2 w-[50px]" min="0" step="0.01"
+                      class="flex items-center bg-light rounded-md space-x-2 w-[60px]" min="0" step="0.01"
                       oninput="this.value = parseFloat(this.value).toFixed(2)" />
                   </div>
                 </div>
 
                 <!-- Stock -->
-                <div class="flex-1 md:ml-2">
+                <div class="flex flex-col w-full md:w-1/2">
                   <strong class="text-lg">Stock:</strong>
                   <!-- Normal -->
-                  <div v-if="!editMode" class="flex items-center bg-light p-3 pl-2 rounded-md space-x-2">
+                  <div v-if="!editMode" class="flex items-center bg-light p-3 pl-2 rounded-md space-x-2 w-[100px]">
                     <img src="../../assets/icons/Resaltado/Simbolo/stock-icon.svg" alt="Stock Icono" class="w-6 h-6" />
                     <span>{{ selectedCaja.stock }}</span>
                   </div>
@@ -186,7 +187,7 @@
             <div class="flex flex-col">
               <strong class="text-lg">Descripción:</strong>
               <!-- Normal -->
-              <div v-if="!editMode" class="flex items-center bg-light p-3 rounded-md space-x-2 pb-14">
+              <div v-if="!editMode" class="flex bg-light p-3 rounded-md space-x-2">
                 <img src="../../assets/icons/Resaltado/Simbolo/descripcion-icon.svg" alt="Precio Icono"
                   class="w-6 h-6" />
                 <p>{{ selectedCaja.descripcion }}</p>
@@ -264,6 +265,7 @@
   </main>
 </template>
 
+<!-- Scripts -->
 <script setup>
 // Importaciones
 import { ref, reactive, computed, watch } from "vue";
@@ -280,14 +282,14 @@ const newCaja = reactive({
   stock: "",
   foto: null,
 });
-
+import Caja1 from '../../assets/icons/Cajas/Caja_1.jpg';
 const cajas = reactive([
   {
     nombre: "Caja romántica",
     descripcion: "Caja en forma de corazón, ideal para San Valentín",
     precio: "8.00",
     stock: 50,
-    foto: '../../assets/icons/Cajas/Caja_1.png',
+    foto: Caja1,
   },
   {
     nombre: "Caja de lujo",
@@ -357,9 +359,8 @@ const showDeleteConfirm = ref(false);
 const cajaToDelete = ref(null);
 const showError = ref(false);
 const placeholderImage = ref("@/assets/icons/Temas/placeholder.jpg");
-const showConfirmation = ref(false);
 
-/* *** Funciones *** */
+/* Funciones */
 // Alterna entre crear y ver caja
 const toggleAddNewCaja = () => {
   isAddingNewCaja.value = !isAddingNewCaja.value;
@@ -441,10 +442,6 @@ const saveCaja = () => {
   editMode.value = false;
 };
 
-// Función para cerrar la ventana emergente
-function closeConfirmation() {
-  showConfirmation.value = false;
-}
 
 // Escoger una imagen
 const onImageSelected = (event) => {

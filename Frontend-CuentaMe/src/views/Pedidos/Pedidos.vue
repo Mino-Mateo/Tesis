@@ -1,14 +1,13 @@
 <!-- HTML -->
 <template>
+  <!-- Contenedor principal -->
+  <main id="main" class="flex flex-col w-full min-h-screen pt-0">
   <!-- Navbar -->
   <Navbar />
-
-  <!-- Contenedor principal -->
-  <main id="main" class="flex flex-col w-full min-h-screen pl-10 pt-0">
-    <div class="flex flex-col md:flex-row gap-6 mt-[26px]">
+    <div class="flex flex-col md:flex-row gap-6 mt-[26px] pl-10">
       <!-- Contenedor de pedidos -->
       <section class="w-full md:w-1/3 max-w-xs p-5 h-[560px] bg-primary rounded-box shadow-pr">
-        <!-- Título de la lista de pedidos -->
+        <!-- Titulo-->
         <div class="flex items-center justify-center mb-6">
           <h2 class="text-[28px] md:text-[30px] font-bold text-white">
             Lista de pedidos
@@ -22,7 +21,7 @@
             <!-- Indicador de estado del pedido -->
             <div :class="[
               'w-5 h-5 flex items-center justify-center mr-4 rounded-full ml-3',
-              pedido.estado === 'Pendiente' ? 'bg-[#F6C23E]' : 'bg-[#28A745]',
+              pedido.estado === 'Pendiente' ? 'bg-warning' : 'bg-success',
             ]"></div>
             <span>{{ pedido.nombre }}</span>
           </div>
@@ -32,10 +31,10 @@
       <!-- Contenedor de datos del pedido -->
       <section
         class="w-full md:w-[850px] mx-auto p-6 bg-primary rounded-box shadow-pr flex flex-col items-center pb-10">
-        <!-- Título de la sección -->
+        <!-- Titulo -->
         <div class="flex items-center justify-center mb-6">
           <h2 class="text-[28px] md:text-[36px] font-bold text-white">
-            Datos del pedido
+            Datos del pedido 
           </h2>
         </div>
 
@@ -50,7 +49,7 @@
                   'w-5 h-5 rounded-full flex justify-center items-center',
                   selectedpedido.estado === 'Pendiente'
                     ? 'bg-[#F6C23E]'
-                    : 'bg-[#28A745]',
+                    : 'bg-success',
                 ]"></div>
                 <span class="text-lg font-medium ml-10">
                   {{
@@ -117,7 +116,7 @@
             <!-- Lista de materiales -->
             <div class="col-span-2 grid grid-cols-1 md:grid-cols-3 gap-4">
               <div v-for="(material, index) in selectedpedido.materiales" :key="index"
-                class="flex items-center bg-[#E5D8F7] p-3 rounded-md shadow-md">
+                class="flex items-center bg-light p-3 rounded-md shadow-md">
                 <img src="../../assets/icons/Resaltado/Simbolo/flor2-icon.svg" alt="Icono Material"
                   class="w-8 h-8 mr-4" />
                 <span class="font-medium text-sm">{{ material }}</span>
@@ -169,13 +168,16 @@
     </div>
 
     <!-- Historial de Pedidos -->
-    <section class="flex w-[1250px] items-center overflow-x-auto justify-center bg-primary p-5 pb mt-6 mb-6 rounded-box shadow-pr">
-      <h2 class="text-[28px] md:text-[30px] justify-center align-center font-bold text-white text-center mb-4 mr-5">Historial</h2>
-      <div class="overflow-x-auto space-x-4 flex">
-        <div v-for="(pedido, index) in entregadosPedidos" :key="index" class="w-screen pedido-item p-1 pr-4 text-simple font-bold bg-light flex items-center rounded-box cursor-pointer h-14">
+    <section class="flex w-[1250px] items-center overflow-x-auto ml-10 bg-primary p-5 pb mt-6 mb-6 rounded-box shadow-pr">
+      <h2 class="text-[28px] md:text-[30px] justify-center align-center font-bold text-white text-center mr-5">Historial
+        de Pedidos</h2>
+      <div class="overflow-x-auto space-x-5 flex w-full">
+        <div v-for="(pedido, index) in entregadosPedidos" :key="index" @click="selectpedido(pedido)"
+          class="pedido-item p-3 pr-6 text-simple font-bold bg-light align-middle justify-center text-center flex items-center rounded-box cursor-pointer h-14 mb-4">
+          <!-- Indicador de estado del pedido -->
           <div :class="[
-            'w-5 h-5 flex items-center justify-center ml-4 mr-4 rounded-full',
-            pedido.estado === 'Entregado' ? 'bg-[#28A745]' : 'bg-[#F6C23E]',
+            'w-6 h-5 flex justify-center mr-4 rounded-full ml-2',
+            pedido.estado === 'Pendiente' ? 'bg-warning' : 'bg-success',
           ]"></div>
           <span>{{ pedido.nombre }}</span>
         </div>
@@ -191,9 +193,11 @@ import { ref, reactive, computed, watch } from "vue";
 import Navbar from "../../components/Navbar.vue";
 
 // Variables
-const isAddingNewpedido = ref(false);
 const selectedpedido = ref(null);
-const editMode = ref(false);
+const filteredpedidos = computed(() => pedidos.value.filter(pedido => pedido.estado === "Pendiente"));
+const entregadosPedidos = computed(() => pedidos.value.filter(pedido => pedido.estado === "Entregado"));
+const searchQuery = ref("");
+const showDeleteConfirm = ref(false);
 
 const clientes = ref([
   {
@@ -477,210 +481,283 @@ const cajas = reactive([
   },
 ]);
 
-const pedidos = reactive([
+const pedidos = ref([
   {
+    id: 1,
     nombre: "Pedido 1",
-    cliente: clientes.value[0].nombre + " " + clientes.value[0].apellido,
+    estado: "Pendiente",
+    cliente: `${clientes.value[0].nombre} ${clientes.value[0].apellido}`,
     direccion: clientes.value[0].direccion,
-    fecha: "2024-11-20",
-    precio: "45.00",
-    materiales: [
-      materiales[0].nombre,
-      materiales[3].nombre,
-      materiales[5].nombre,
-      materiales[6].nombre,
-    ],
-    caja: cajas[1],
-    estado: "Pendiente",
-    foto: ("../../assets/icons/Cajas/Caja_1.png"),
+    fecha: "2024-11-22",
+    precio: "50",
+    foto: "path/to/image.jpg",
+    materiales: [materiales[0].nombre, materiales[1].nombre],
+    caja: cajas[0].nombre,
   },
   {
-    nombre: "Pedido 4",
-    cliente: clientes.value[3].nombre + " " + clientes.value[3].apellido,
-    direccion: clientes.value[3].direccion,
-    fecha: "2024-11-18",
-    precio: "65.20",
-    materiales: [
-      materiales[3].nombre,
-      materiales[4].nombre,
-      materiales[6].nombre,
-      materiales[9].nombre,
-    ],
-    caja: cajas[4],
-    estado: "Pendiente",
-  },
-  {
-    nombre: "Pedido 7",
-    cliente: clientes.value[6].nombre + " " + clientes.value[6].apellido,
-    direccion: clientes.value[6].direccion,
-    fecha: "2024-11-15",
-    precio: "40.90",
-    materiales: [
-      materiales[2].nombre,
-      materiales[3].nombre,
-      materiales[8].nombre,
-    ],
-    caja: cajas[7],
-    estado: "Pendiente",
-  },
-  {
-    nombre: "Pedido 9",
-    cliente: clientes.value[8].nombre + " " + clientes.value[8].apellido,
-    direccion: clientes.value[8].direccion,
-    fecha: "2024-11-13",
-    precio: "75.00",
-    materiales: [
-      materiales[2].nombre,
-      materiales[4].nombre,
-      materiales[6].nombre,
-      materiales[7].nombre,
-      materiales[9].nombre,
-    ],
-    caja: cajas[9],
-    estado: "Pendiente",
-  },
-]);
-
-const entregadosPedidos = reactive([
-  {
+    id: 2,
     nombre: "Pedido 2",
-    cliente: clientes.value[1].nombre + " " + clientes.value[1].apellido,
+    estado: "Entregado",
+    cliente: `${clientes.value[1].nombre} ${clientes.value[1].apellido}`,
     direccion: clientes.value[1].direccion,
-    fecha: "2024-11-20",
-    precio: "35.50",
-    materiales: [
-      materiales[1].nombre,
-      materiales[4].nombre,
-      materiales[7].nombre,
-    ],
-    caja: cajas[2],
-    estado: "Entregado",
+    fecha: "2024-11-21",
+    precio: "70",
+    foto: "path/to/image.jpg",
+    materiales: [materiales[2].nombre],
+    caja: cajas[1].nombre,
   },
   {
+    id: 3,
     nombre: "Pedido 3",
-    cliente: clientes.value[2].nombre + " " + clientes.value[2].apellido,
+    estado: "Pendiente",
+    cliente: `${clientes.value[2].nombre} ${clientes.value[2].apellido}`,
     direccion: clientes.value[2].direccion,
+    fecha: "2024-11-20",
+    precio: "45",
+    foto: "path/to/image.jpg",
+    materiales: [materiales[3].nombre, materiales[4].nombre],
+    caja: cajas[2].nombre,
+  },
+  {
+    id: 4,
+    nombre: "Pedido 4",
+    estado: "Pendiente",
+    cliente: `${clientes.value[3].nombre} ${clientes.value[3].apellido}`,
+    direccion: clientes.value[3].direccion,
     fecha: "2024-11-19",
-    precio: "55.75",
-    materiales: [
-      materiales[0].nombre,
-      materiales[2].nombre,
-      materiales[5].nombre,
-      materiales[6].nombre,
-      materiales[8].nombre,
-    ],
-    caja: cajas[3],
-    estado: "Entregado",
+    precio: "85",
+    foto: "path/to/image.jpg",
+    materiales: [materiales[5].nombre, materiales[6].nombre],
+    caja: cajas[3].nombre,
   },
   {
+    id: 5,
     nombre: "Pedido 5",
-    cliente: clientes.value[4].nombre + " " + clientes.value[4].apellido,
+    estado: "Entregado",
+    cliente: `${clientes.value[4].nombre} ${clientes.value[4].apellido}`,
     direccion: clientes.value[4].direccion,
-    fecha: "2024-11-17",
-    precio: "70.00",
-    materiales: [
-      materiales[1].nombre,
-      materiales[2].nombre,
-      materiales[5].nombre,
-      materiales[8].nombre,
-    ],
-    caja: cajas[5],
-    estado: "Entregado",
+    fecha: "2024-11-18",
+    precio: "60",
+    foto: "path/to/image.jpg",
+    materiales: [materiales[7].nombre],
+    caja: cajas[4].nombre,
   },
   {
+    id: 6,
     nombre: "Pedido 6",
-    cliente: clientes.value[5].nombre + " " + clientes.value[5].apellido,
+    estado: "Pendiente",
+    cliente: `${clientes.value[5].nombre} ${clientes.value[5].apellido}`,
     direccion: clientes.value[5].direccion,
+    fecha: "2024-11-17",
+    precio: "90",
+    foto: "path/to/image.jpg",
+    materiales: [materiales[8].nombre, materiales[9].nombre],
+    caja: cajas[5].nombre,
+  },
+  {
+    id: 7,
+    nombre: "Pedido 7",
+    estado: "Pendiente",
+    cliente: `${clientes.value[6].nombre} ${clientes.value[6].apellido}`,
+    direccion: clientes.value[6].direccion,
     fecha: "2024-11-16",
-    precio: "50.40",
-    materiales: [
-      materiales[0].nombre,
-      materiales[4].nombre,
-      materiales[7].nombre,
-    ],
-    caja: cajas[6],
-    estado: "Entregado",
+    precio: "40",
+    foto: "path/to/image.jpg",
+    materiales: [materiales[0].nombre, materiales[4].nombre],
+    caja: cajas[6].nombre,
   },
   {
+    id: 8,
     nombre: "Pedido 8",
-    cliente: clientes.value[7].nombre + " " + clientes.value[7].apellido,
-    direccion: clientes.value[7].direccion,
-    fecha: "2024-11-14",
-    precio: "60.00",
-    materiales: [
-      materiales[0].nombre,
-      materiales[1].nombre,
-      materiales[5].nombre,
-      materiales[9].nombre,
-    ],
-    caja: cajas[8],
     estado: "Entregado",
+    cliente: `${clientes.value[7].nombre} ${clientes.value[7].apellido}`,
+    direccion: clientes.value[7].direccion,
+    fecha: "2024-11-15",
+    precio: "55",
+    foto: "path/to/image.jpg",
+    materiales: [materiales[2].nombre],
+    caja: cajas[7].nombre,
   },
   {
+    id: 9,
+    nombre: "Pedido 9",
+    estado: "Pendiente",
+    cliente: `${clientes.value[8].nombre} ${clientes.value[8].apellido}`,
+    direccion: clientes.value[8].direccion,
+    fecha: "2024-11-14",
+    precio: "65",
+    foto: "path/to/image.jpg",
+    materiales: [materiales[6].nombre],
+    caja: cajas[8].nombre,
+  },
+  {
+    id: 10,
     nombre: "Pedido 10",
-    cliente: clientes.value[9].nombre + " " + clientes.value[9].apellido,
+    estado: "Pendiente",
+    cliente: `${clientes.value[9].nombre} ${clientes.value[9].apellido}`,
     direccion: clientes.value[9].direccion,
+    fecha: "2024-11-13",
+    precio: "75",
+    foto: "path/to/image.jpg",
+    materiales: [materiales[1].nombre, materiales[8].nombre],
+    caja: cajas[9].nombre,
+  },
+  {
+    id: 11,
+    nombre: "Pedido 11",
+    estado: "Pendiente",
+    cliente: `${clientes.value[0].nombre} ${clientes.value[0].apellido}`,
+    direccion: "Retirar en Local",
     fecha: "2024-11-12",
-    precio: "80.50",
-    materiales: [
-      materiales[0].nombre,
-      materiales[5].nombre,
-      materiales[7].nombre,
-      materiales[8].nombre,
-    ],
-    caja: cajas[0],
+    precio: "120",
+    foto: "path/to/image.jpg",
+    materiales: [materiales[2].nombre, materiales[6].nombre],
+    caja: cajas[0].nombre,
+  },
+  {
+    id: 12,
+    nombre: "Pedido 12",
+    estado: "Pendiente",
+    cliente: `${clientes.value[1].nombre} ${clientes.value[1].apellido}`,
+    direccion: clientes.value[1].direccion,
+    fecha: "2024-11-11",
+    precio: "95",
+    foto: "path/to/image.jpg",
+    materiales: [materiales[4].nombre],
+    caja: cajas[1].nombre,
+  },
+  {
+    id: 13,
+    nombre: "Pedido 13",
     estado: "Entregado",
+    cliente: `${clientes.value[2].nombre} ${clientes.value[2].apellido}`,
+    direccion: "Retirar en Local",
+    fecha: "2024-11-10",
+    precio: "110",
+    foto: "path/to/image.jpg",
+    materiales: [materiales[1].nombre, materiales[5].nombre],
+    caja: cajas[2].nombre,
+  },
+  {
+    id: 14,
+    nombre: "Pedido 14",
+    estado: "Pendiente",
+    cliente: `${clientes.value[3].nombre} ${clientes.value[3].apellido}`,
+    direccion: clientes.value[3].direccion,
+    fecha: "2024-11-09",
+    precio: "65",
+    foto: "path/to/image.jpg",
+    materiales: [materiales[7].nombre],
+    caja: cajas[3].nombre,
+  },
+  {
+    id: 15,
+    nombre: "Pedido 15",
+    estado: "Pendiente",
+    cliente: `${clientes.value[4].nombre} ${clientes.value[4].apellido}`,
+    direccion: "Retirar en Local",
+    fecha: "2024-11-08",
+    precio: "80",
+    foto: "path/to/image.jpg",
+    materiales: [materiales[0].nombre, materiales[3].nombre],
+    caja: cajas[4].nombre,
+  },
+  {
+    id: 16,
+    nombre: "Pedido 16",
+    estado: "Entregado",
+    cliente: `${clientes.value[5].nombre} ${clientes.value[5].apellido}`,
+    direccion: clientes.value[5].direccion,
+    fecha: "2024-11-07",
+    precio: "150",
+    foto: "path/to/image.jpg",
+    materiales: [materiales[8].nombre, materiales[9].nombre],
+    caja: cajas[5].nombre,
+  },
+  {
+    id: 17,
+    nombre: "Pedido 17",
+    estado: "Pendiente",
+    cliente: `${clientes.value[6].nombre} ${clientes.value[6].apellido}`,
+    direccion: "Retirar en Local",
+    fecha: "2024-11-06",
+    precio: "130",
+    foto: "path/to/image.jpg",
+    materiales: [materiales[2].nombre],
+    caja: cajas[6].nombre,
+  },
+  {
+    id: 18,
+    nombre: "Pedido 18",
+    estado: "Pendiente",
+    cliente: `${clientes.value[7].nombre} ${clientes.value[7].apellido}`,
+    direccion: clientes.value[7].direccion,
+    fecha: "2024-11-05",
+    precio: "160",
+    foto: "path/to/image.jpg",
+    materiales: [materiales[6].nombre, materiales[4].nombre],
+    caja: cajas[7].nombre,
+  },
+  {
+    id: 19,
+    nombre: "Pedido 19",
+    estado: "Entregado",
+    cliente: `${clientes.value[8].nombre} ${clientes.value[8].apellido}`,
+    direccion: "Retirar en Local",
+    fecha: "2024-11-04",
+    precio: "140",
+    foto: "path/to/image.jpg",
+    materiales: [materiales[1].nombre],
+    caja: cajas[8].nombre,
+  },
+  {
+    id: 20,
+    nombre: "Pedido 20",
+    estado: "Pendiente",
+    cliente: `${clientes.value[9].nombre} ${clientes.value[9].apellido}`,
+    direccion: clientes.value[9].direccion,
+    fecha: "2024-11-03",
+    precio: "75",
+    foto: "path/to/image.jpg",
+    materiales: [materiales[5].nombre, materiales[8].nombre],
+    caja: cajas[9].nombre,
   },
 ]);
 
-const searchQuery = ref("");
-const filteredpedidos = computed(() => {
-  return pedidos.filter((pedido) =>
-    pedido.nombre.toLowerCase().includes(searchQuery.value.toLowerCase())
-  );
-});
-const showDeleteConfirm = ref(false);
-const pedidoToDelete = ref(null);
-
-/* *** Funciones *** */
-
-// Seleccionar un pedido
+/* Funciones */
 const selectpedido = (pedido) => {
   selectedpedido.value = pedido;
-  isAddingNewpedido.value = false;
-  editMode.value = false;
 };
 
 // Alternar estado del pedido
-const cambiarEstado = () => {
+function cambiarEstado() {
   if (selectedpedido.value) {
     selectedpedido.value.estado =
       selectedpedido.value.estado === "Pendiente" ? "Entregado" : "Pendiente";
+    pedidos.value = pedidos.value.map(pedido =>
+      pedido.id === selectedpedido.value.id ? { ...selectedpedido.value } : pedido
+    );
+    selectedpedido.value = null;
   }
-};
+}
 
 // Confirmar la eliminación
 const openDeleteConfirm = (pedido) => {
-  pedidoToDelete.value = pedido;
+  selectedpedido.value = pedido;
   showDeleteConfirm.value = true;
 };
 
 // Cierra la ventana
 const closeDeleteConfirm = () => {
   showDeleteConfirm.value = false;
+  selectedpedido.value = null;
 };
 
 // Eliminar pedido
 const confirmDeletePedido = () => {
   if (selectedpedido.value) {
-    const index = pedidos.findIndex(
-      (pedido) => pedido === selectedpedido.value
-    );
-    if (index !== -1) {
-      pedidos.splice(index, 1);
-    }
-    selectedpedido.value = null;
-    closeDeleteConfirm();
+    pedidos.value = pedidos.value.filter(pedido => pedido !== selectedpedido.value);
+    closeDeleteConfirm(); // Cierra la ventana emergente
   }
 };
 
