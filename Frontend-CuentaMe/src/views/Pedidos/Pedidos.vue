@@ -6,7 +6,7 @@
   <Navbar />
     <div class="flex flex-col md:flex-row gap-6 mt-[26px] pl-10">
       <!-- Contenedor de pedidos -->
-      <section class="w-full md:w-1/3 max-w-xs p-5 h-[560px] bg-primary rounded-box shadow-pr">
+      <section class="w-full md:w-1/3 max-w-xs p-5 h-[560px] bg-primary rounded-card shadow-pr">
         <!-- Titulo-->
         <div class="flex items-center justify-center mb-6">
           <h2 class="text-[28px] md:text-[30px] font-bold text-white">
@@ -17,7 +17,7 @@
         <!-- Lista de pedidos-->
         <div class="h-[450px] overflow-y-auto space-y-4 pr-5">
           <div v-for="(pedido, index) in filteredpedidos" :key="index" @click="selectpedido(pedido)"
-            class="pedido-item p-1 pr-4 text-simple font-bold bg-light flex items-center rounded-box cursor-pointer h-12">
+            class="pedido-item p-1 pr-4 text-simple font-bold bg-light flex items-center rounded-card cursor-pointer h-12">
             <!-- Indicador de estado del pedido -->
             <div :class="[
               'w-5 h-5 flex items-center justify-center mr-4 rounded-full ml-3',
@@ -30,7 +30,7 @@
 
       <!-- Contenedor de datos del pedido -->
       <section
-        class="w-full md:w-[850px] mx-auto p-6 bg-primary rounded-box shadow-pr flex flex-col items-center pb-10">
+        class="w-full md:w-[850px] mx-auto p-6 bg-primary rounded-card shadow-pr flex flex-col items-center pb-10">
         <!-- Titulo -->
         <div class="flex items-center justify-center mb-6">
           <h2 class="text-[28px] md:text-[36px] font-bold text-white">
@@ -39,7 +39,7 @@
         </div>
 
         <!-- Contenedor de los datos -->
-        <div class="w-full bg-secondary p-10 rounded-box text-neutral">
+        <div class="w-full bg-secondary p-10 rounded-card text-neutral">
           <div v-if="selectedpedido" class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <!-- Estado del pedido -->
             <div class="flex flex-col gap-2">
@@ -110,7 +110,7 @@
             <!-- Foto del pedido -->
             <div class="flex justify-center items-center col-span-2">
               <img :src="selectedpedido.foto" alt="Foto del Pedido"
-                class="bg-light p-3 rounded-box w-36 h-36 md:w-40 md:h-40" />
+                class="bg-light p-3 rounded-card w-36 h-36 md:w-40 md:h-40" />
             </div>
 
             <!-- Lista de materiales -->
@@ -135,7 +135,7 @@
           <transition name="slide">
             <div v-if="showDeleteConfirm"
               class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
-              <div class="relative p-8 bg-primary rounded-box text-center w-3/4 max-w-md">
+              <div class="relative p-8 bg-primary rounded-card text-center w-3/4 max-w-md">
                 <!-- Botón para cerrar ventana -->
                 <button class="absolute top-2 right-2 text-white" @click="closeDeleteConfirm"
                   aria-label="Cerrar ventana">
@@ -152,11 +152,11 @@
                 <!-- Botones -->
                 <div class="flex justify-around mt-4">
                   <button @click="confirmDeletePedido"
-                    class="bg-success text-black py-2 px-16 rounded-box font-bold hover:bg-opacity-90">
+                    class="bg-success text-black py-2 px-16 rounded-card font-bold hover:bg-opacity-90">
                     Sí
                   </button>
                   <button @click="closeDeleteConfirm"
-                    class="bg-danger text-black py-2 px-16 rounded-box font-bold hover:bg-opacity-90">
+                    class="bg-danger text-black py-2 px-16 rounded-card font-bold hover:bg-opacity-90">
                     No
                   </button>
                 </div>
@@ -168,12 +168,12 @@
     </div>
 
     <!-- Historial de Pedidos -->
-    <section class="flex w-[1250px] items-center overflow-x-auto ml-10 bg-primary p-5 pb mt-6 mb-6 rounded-box shadow-pr">
+    <section class="flex w-[1250px] items-center overflow-x-auto ml-10 bg-primary p-5 pb mt-6 mb-6 rounded-card shadow-pr">
       <h2 class="text-[28px] md:text-[30px] justify-center align-center font-bold text-white text-center mr-5">Historial
         de Pedidos</h2>
       <div class="overflow-x-auto space-x-5 flex w-full">
         <div v-for="(pedido, index) in entregadosPedidos" :key="index" @click="selectpedido(pedido)"
-          class="pedido-item p-3 pr-6 text-simple font-bold bg-light align-middle justify-center text-center flex items-center rounded-box cursor-pointer h-14 mb-4">
+          class="pedido-item p-3 pr-6 text-simple font-bold bg-light align-middle justify-center text-center flex items-center rounded-card cursor-pointer h-14 mb-4">
           <!-- Indicador de estado del pedido -->
           <div :class="[
             'w-6 h-5 flex justify-center mr-4 rounded-full ml-2',

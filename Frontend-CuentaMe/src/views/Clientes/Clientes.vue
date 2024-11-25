@@ -1,119 +1,85 @@
 <!-- HTML -->
 <template>
-  <main id="main" class="flex flex-col w-full min-h-screen pt-0">
-  <!-- Navbar -->
-  <Navbar />
+  <main id="main" class="flex flex-col w-full min-h-screen">
+    <!-- Navbar -->
+    <Navbar />
 
     <!-- Contenedor principal -->
-    <div class="flex w-full  h-full gap-6 mt-[26px] pl-10">
+    <div class="flex w-full h-full gap-6 mt-6 px-10">
 
-      <!-- Contenedor clientes -->
-      <section class="w-1/3 max-w-xs p-5 h-[560px] bg-primary rounded-box shadow-pr">
-        <!-- Cuadro de Busqueda -->
-        <div class="relative mb-10">
-          <span class="absolute inset-y-0 left-4 flex items-center">
-            <img src="../../assets/icons/Resaltado/Simbolo/lupa-icon.svg" alt="Icono Buscar" class="w-7 h-6" />
-          </span>
-          <input type="text" placeholder="Buscar por nombre" v-model="searchQuery" @input="filterClientes"
-            class="block w-full pl-12 pr-3 py-3 text-center text-simple font-bold bg-light border border-gray-300 rounded-box shadow-sm placeholder-gray-400 focus:outline-none focus:ring-[#946ad8] focus:border-[#946ad8]" />
+      <!-- Contenedor Izquierda -->
+      <section class="w-1/3 max-w-xs p-5 bg-primary rounded-card shadow-lg">
+        <!-- Cuadro de búsqueda -->
+        <div class="pb-6 text-neutral">
+          <input type="text" aria-label="Buscar clientes por nombre" placeholder="Buscar por nombre"
+            v-model="searchQuery" @input="filterClientes"
+            class="w-full bg-light p-3 rounded-md shadow-md text-center focus:outline-none" />
+          <div v-if="filteredClientes.length === 0" class="text-center pt-5 text-xl text-white">
+            No se encontraron resultados
+          </div>
         </div>
 
         <!-- Lista de clientes -->
-        <div class="h-[435px] overflow-y-auto space-y-4 pr-5">
+        <div class="h-[425px] overflow-y-auto space-y-4 pr-4">
           <div v-for="(cliente, index) in filteredClientes" :key="index" @click="selectCliente(cliente)"
-            class="cliente-item p-1 pr-4 text-simple font-bold bg-light flex items-center rounded-box cursor-pointer">
-            <div class="icon w-10 h-10 rounded-full flex items-center justify-center mr-4">
-              <img src="../../assets/icons/Resaltado/Simbolo/cliente-icon.svg" alt="Icono Cliente" class="w-8 h-8" />
-            </div>
+            class="cliente-item flex items-center bg-light p-2 rounded-md shadow-md cursor-pointer text-neutral">
+            <img src="../../assets/icons/Resaltado/Simbolo/cliente-icon.svg" alt="Icono Cliente"
+              class="w-10 h-10 rounded-full mr-4" />
             <span>{{ cliente.nombre }} {{ cliente.apellido }}</span>
           </div>
         </div>
       </section>
 
-      <!-- Datos del Cliente -->
-      <section class="w-[850px] mx-auto p-6 h-[560px] bg-primary rounded-box shadow-pr flex flex-col items-center">
-        <div class="flex items-center justify-center mb-6">
-          <h2 class="text-[36px] font-bold text-white">Datos del Cliente</h2>
-        </div>
+      <!-- Contenedor Derecha -->
+      <section class="flex-1 p-10 bg-primary rounded-card shadow-lg">
+        <h2 class="text-3xl text-center mb-6 font-heading font-bold text-text-light">Datos del cliente</h2>
 
-        <!-- Contenedor principal -->
-        <div class="w-full bg-secondary p-10 rounded-box text-neutral">
-          <div v-if="selectedCliente" class="space-y-4">
-            <!-- Correo -->
-            <div class="grid grid-cols-1 gap-6">
-              <div class="flex items-center space-x-3">
-                <!-- Icono de Correo -->
-                <strong class="whitespace-nowrap">Correo:</strong>
-                <span class="bg-content p-3 rounded-ms flex-1 truncate flex items-center justify-between">
-                  <img src="../../assets/icons/Resaltado/Simbolo/mail2-icon.svg" alt="Icono de Correo"
-                    class="w-9 h-9 mr-2" />
-                  <span>{{ selectedCliente.correo }}</span>
-                  <i class="fas fa-copy text-neutral cursor-pointer"></i>
-                </span>
-              </div>
+        <!-- Contenedor de datos del cliente -->
+        <div class="w-full bg-secondary p-6 rounded-card text-text-light">
+          <!-- Texto antes de seleccionar al cliente -->
+          <div v-if="!selectedCliente" class="text-[25px] text-center font-semibold font-sans">
+            Selecciona a un cliente para ver sus datos
+          </div>
+
+          <!-- Datos del cliente -->
+          <div v-else>
+            <div class="space-y-6">
+              <!-- Correo -->
+              <InfoRow label="Correo" :value="selectedCliente.correo" icon="mail-icon.svg" />
 
               <!-- Nombre y Apellido -->
-              <div class="grid grid-cols-2 gap-6">
-                <div class="flex items-center space-x-3">
-                  <!-- Icono de Nombre -->
-                  <strong class="whitespace-nowrap">Nombre:</strong>
-                  <span class="bg-content p-3 rounded-ms flex-1 truncate flex items-center justify-between">
-                    <img src="../../assets/icons/Resaltado/Simbolo/namelast-icon.svg" alt="Icono de Nombre"
-                      class="w-9 h-9 mr-2" />
-                    <span>{{ selectedCliente.nombre }}</span>
-                    <i class="fas fa-edit text-neutral cursor-pointer"></i>
-                  </span>
-                </div>
-                <div class="flex items-center space-x-3">
-                  <!-- Icono de Apellido -->
-                  <strong class="whitespace-nowrap">Apellido:</strong>
-                  <span class="bg-content p-3 rounded-ms flex-1 truncate flex items-center justify-between">
-                    <img src="../../assets/icons/Resaltado/Simbolo/namelast-icon.svg" alt="Icono de Apellido"
-                      class="w-9 h-9 mr-2" />
-                    <span>{{ selectedCliente.apellido }}</span>
-                    <i class="fas fa-edit text-neutral cursor-pointer"></i>
-                  </span>
-                </div>
+              <div class="grid grid-cols-2 gap-4">
+                <InfoRow label="Nombre" :value="selectedCliente.nombre" icon="namelast-icon.svg" />
+                <InfoRow label="Apellido" :value="selectedCliente.apellido" icon="namelast-icon.svg" />
               </div>
 
-              <!-- Direccion y Telefono -->
-              <div class="grid grid-cols-2 gap-6">
-                <div class="flex items-center space-x-3">
-                  <!-- Icono de Dirección -->
-                  <strong class="whitespace-nowrap">Dirección:</strong>
-                  <span class="bg-content p-3 rounded-ms flex-1 truncate flex items-center justify-between">
-                    <img src="../../assets/icons/Resaltado/Simbolo/direction-icon.svg" alt="Icono de Direccion"
-                      class="w-9 h-9 mr-2" />
-                    <span>{{ selectedCliente.direccion }}</span>
-                    <i class="fas fa-map-signs text-neutral cursor-pointer"></i>
-                  </span>
-                </div>
-                <div class="flex items-center space-x-3">
-                  <!-- Icono de Teléfono -->
-                  <strong class="whitespace-nowrap">Teléfono:</strong>
-                  <span class="bg-content p-3 rounded-ms flex-1 truncate flex items-center justify-between">
-                    <img src="../../assets/icons/Resaltado/Simbolo/phone-icon.svg" alt="Icono de telefono"
-                      class="w-9 h-9 mr-2" />
-                    <span>{{ selectedCliente.telefono }}</span>
-                    <i class="fas fa-phone-square-alt text-neutral cursor-pointer"></i>
-                  </span>
-                </div>
+              <!-- Dirección y Teléfono -->
+              <div class="grid grid-cols-2 gap-4">
+                <InfoRow label="Dirección" :value="selectedCliente.direccion" icon="direction-icon.svg" />
+                <InfoRow label="Teléfono" :value="selectedCliente.telefono" icon="phone-icon.svg" />
               </div>
             </div>
           </div>
+
         </div>
       </section>
     </div>
+
   </main>
 </template>
 
 <!-- Scripts -->
 <script setup>
 // Importaciones
-import Navbar from '../../components/Navbar.vue';
 import { ref, computed } from 'vue';
+import Navbar from '../../components/Navbar.vue';
+import InfoRow from '../../components/InfoRow.vue';
 
-// Datos de los clientes
+// Variables reactivas
+const selectedCliente = ref(null);
+const searchQuery = ref('');
+
+// Datos quemados clientes
 const clientes = ref([
   { nombre: 'Ana', apellido: 'Martínez', correo: 'ana.martinez@gmail.com', telefono: '0987654321', direccion: 'Av. Siempre Viva 123' },
   { nombre: 'Carlos', apellido: 'Gómez', correo: 'carlos.gomez@hotmail.com', telefono: '0991234567', direccion: 'Calle Los Pinos 45' },
@@ -137,22 +103,17 @@ const clientes = ref([
   { nombre: 'Sebastián', apellido: 'Álvarez', correo: 'sebastian.alvarez@onion.com', telefono: '0911100098', direccion: 'Av. Nevado 1212' },
 ]);
 
-const selectedCliente = ref(null);
-const searchQuery = ref("");
+// Función para buscar clientes
+const filteredClientes = computed(() =>
+  clientes.value.filter(cliente =>
+    `${cliente.nombre} ${cliente.apellido}`.toLowerCase().includes(searchQuery.value.toLowerCase())
+  )
+);
 
-// Mostrar Datos
+// Función para seleccionar cliente
 function selectCliente(cliente) {
   selectedCliente.value = cliente;
-}
-
-// Filtrar nombres
-const filteredClientes = computed(() => {
-  return clientes.value.filter(cliente =>
-    `${cliente.nombre} ${cliente.apellido}`
-      .toLowerCase()
-      .includes(searchQuery.value.toLowerCase())
-  );
-});
+};
 </script>
 
 <!-- Estilos -->
@@ -160,26 +121,16 @@ const filteredClientes = computed(() => {
 /* Fuentes */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Josefin+Sans:wght@400;600&display=swap');
 
-.font-heading {
-  font-family: 'Poppins', sans-serif;
-}
-
-.font-sans {
-  font-family: 'Josefin Sans', sans-serif;
-}
-
-/* Extras*/
+/* Fondo de Pantalla */
 main {
   background-image: url("../../assets/icons/Fondo_de_Pantalla/FondoPantalla.png");
   background-size: cover;
   background-position: center;
 }
 
-/* Espaciado de elementos */
-.cliente-item {
-  transition: background-color 0.2s;
-}
-.cliente-item:hover {
-  background-color: #d3d3d3;
+/* Barra de scroll */
+section>div {
+  scrollbar-width: auto;
+  scrollbar-color: #946ad8 #E0D3F5;
 }
 </style>

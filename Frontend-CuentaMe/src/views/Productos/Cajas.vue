@@ -1,54 +1,53 @@
 <!-- HTML -->
 <template>
   <main id="main" class="flex flex-col w-full min-h-screen pt-0">
-
-  <!-- Navbar -->
-  <Navbar />
+    <!-- Navbar -->
+    <Navbar />
 
     <!-- Contenedor principal -->
-    <div class="flex w-full gap-6 mt-[26px] pl-10">
-      <!-- Contenedor cajas -->
-      <section class="w-1/3 max-w-xs p-5 h-[560px] bg-primary rounded-box shadow-pr">
-        <!-- Añadir Caja -->
+    <div class="flex w-full h-full gap-6 mt-6 px-10">
+      <!-- Contenedor Izquierda -->
+      <section class="w-1/3 max-w-xs p-5 bg-primary rounded-card shadow-lg">
+        <!-- Botón añadir Caja -->
         <button @click="toggleAddNewCaja"
-          class="w-full bg-secondary text-white font-bold py-2 px-4 mb-4 rounded-box items-center justify-center">
+          class="w-full flex items-center justify-center py-2 px-4 mb-5 bg-secondary text-text-light hover:bg-[#9397c0] focus:outline-none focus:ring-2 rounded-card focus:ring-[#946ad8] focus:border-[#946ad8] focus:ring-opacity-50 font-sans"
+          aria-label="Añadir nueva caja">
           Añadir Caja
         </button>
 
-        <!-- Cuadro de Busqueda -->
-        <div class="relative mb-10">
-          <span class="absolute inset-y-0 left-4 flex items-center">
-            <img src="../../assets/icons/Resaltado/Simbolo/lupa-icon.svg" alt="Icono Buscar" class="w-7 h-6" />
-          </span>
-          <input type="text" placeholder="Buscar por nombre" v-model="searchQuery" @input="filterCajas"
-            class="block w-full pl-12 pr-3 py-3 text-center text-simple font-bold bg-light border border-gray-300 rounded-box shadow-sm placeholder-gray-400 focus:outline-none focus:ring-[#946ad8] focus:border-[#946ad8]" />
+        <!-- Cuadro de búsqueda -->
+        <div class="pb-6 text-neutral">
+          <input type="text" aria-label="Buscar clientes por nombre" placeholder="Buscar por nombre"
+            v-model="searchQuery" @input="filterCajas"
+            class="w-full bg-light p-3 rounded-md shadow-md text-center focus:outline-none" />
+          <div v-if="filteredCajas.length === 0" class="text-center pt-5 text-xl text-white">
+            No se encontraron resultados
+          </div>
         </div>
 
         <!-- Lista de cajas -->
-        <div class="h-[380px] overflow-y-auto space-y-4 pr-5">
+        <div class="h-[360px] overflow-y-auto space-y-4 pr-4">
           <div v-for="(caja, index) in filteredCajas" :key="index" @click="selectCaja(caja)"
-            class="caja-item p-1 pr-4 text-simple font-bold bg-light flex items-center rounded-box cursor-pointer">
-            <div class="icon w-10 h-10 flex items-center justify-center mr-4">
-              <img src="../../assets/icons/Resaltado/Simbolo/caja2-icon.svg" alt="Icono Cliente" class="w-8 h-8" />
-            </div>
+            class="caja-item flex items-center bg-light p-2 rounded-md shadow-md cursor-pointer text-neutral">
+            <img src="../../assets/icons/Resaltado/Simbolo/caja2-icon.svg" alt="Icono Cliente"
+              class="w-10 h-10 rounded-full mr-4" />
             <span>{{ caja.nombre }}</span>
           </div>
         </div>
       </section>
 
-      <!-- Datos de las cajas -->
-      <section
-        class="w-[850px] mx-auto p-6 h-[560px] bg-primary rounded-box shadow-pr flex flex-col items-center pb-10">
-        <!-- Título de la sección -->
-        <div class="flex items-center justify-center mb-6">
-          <h2 class="text-[28px] md:text-[36px] font-bold text-white">
-            Datos de la Caja
-          </h2>
-        </div>
+      <!-- Contenedor Derecha -->
+      <section class="flex-1 p-10 bg-primary rounded-card shadow-lg">
+        <h2 class="text-3xl text-center mb-6 font-heading font-bold text-text-light">Datos de la caja</h2>
 
         <!-- Contenedor principal -->
-        <div class="w-full bg-secondary p-10 rounded-box text-neutral">
-          <!-- Formulario de nueva caja -->
+        <div class="w-full bg-secondary p-10 rounded-card text-neutral">
+          <!-- Texto antes de seleccionar la caja -->
+          <div v-if="!selectedCaja && !isAddingNewCaja" class="text-[25px] text-center font-semibold font-sans text-text-light">
+            Selecciona una caja para ver sus datos
+          </div>
+
+          <!-- Datos de la nueva caja -->
           <div v-if="isAddingNewCaja && !selectedCaja" class="space-y-4">
             <h3 class="text-white font-bold text-lg">Nueva Caja</h3>
             <!-- Campos del formulario -->
@@ -94,33 +93,33 @@
 
               <!-- Botones de formulario -->
               <div class="flex justify-around mt-4">
-                <button @click="saveNewCaja" class="w-1/3 bg-success text-black py-2 px-4 rounded-box">
+                <button @click="saveNewCaja" class="w-1/3 bg-success text-black py-2 px-4 rounded-card">
                   Guardar
                 </button>
-                <button @click="cancelAddCaja" class="w-1/3 bg-danger text-black py-2 px-4 rounded-box">
+                <button @click="cancelAddCaja" class="w-1/3 bg-danger text-black py-2 px-4 rounded-card">
                   Cancelar
                 </button>
               </div>
             </div>
           </div>
 
-          <!-- Detalles de la caja -->
-          <div v-if="selectedCaja && !isAddingNewCaja" class="space-y-4 h-[360px]">
+          <!-- Datos de la caja -->
+          <div v-if="selectedCaja && !isAddingNewCaja" class="space-y-4">
             <!-- Imagen -->
             <div class="flex items-center">
               <strong class="text-lg mr-2">Foto:</strong>
               <!-- Edicion -->
               <div v-if="editMode" class="flex items-center">
-                <input type="file" id="fileInput" @change="onImageSelected" class="hidden"
+                <input :src="imageToDisplay" type="file" id="fileInput" @change="onImageSelected" class="hidden"
                   accept="image/png, image/jpeg, image/jpg" />
                 <label for="fileInput"
-                  class="cursor-pointer bg-light p-3 rounded-box w-36 h-36 md:w-40 md:h-40 flex justify-center items-center">
-                  <img :src="placeholderImage" alt="Placeholder" class="w-full h-full object-cover" />
+                  class="cursor-pointer bg-light p-3 rounded-card w-36 h-36 md:w-40 md:h-40 flex justify-center items-center">
+                  <img src="../../assets/icons/Temas/placeholder.jpg" class="w-full h-full object-cover" />
                 </label>
               </div>
               <!-- Normal -->
               <div v-if="!editMode" class="flex items-center">
-                <span class="bg-light p-3 rounded-box w-36 h-36 md:w-40 md:h-40 flex justify-center items-center">
+                <span class="bg-light p-3 rounded-card w-36 h-36 md:w-40 md:h-40 flex justify-center items-center">
                   <img :src="selectedCaja.foto" alt="Foto" class="w-full h-full object-cover" />
                 </span>
               </div>
@@ -148,8 +147,8 @@
                 <div class="flex flex-col w-full md:w-1/2 ml-5">
                   <strong class="text-lg">Precio:</strong>
                   <!-- Normal -->
-                  <div v-if="!editMode" class="flex items-center bg-light p-3 pl-0 rounded-md space-x-2 w-[100px]" min="0"
-                    step="1">
+                  <div v-if="!editMode" class="flex items-center bg-light p-3 pl-0 rounded-md space-x-2 w-[100px]"
+                    min="0" step="1">
                     <img src="../../assets/icons/Resaltado/Simbolo/dinero-icon.svg" alt="Precio Icono"
                       class="w-6 h-6" />
                     <span>{{ selectedCaja.precio }}</span>
@@ -215,52 +214,17 @@
               </button>
             </div>
           </div>
+
         </div>
       </section>
 
       <!-- Ventana Emergente -->
-      <transition name="slide">
-        <div v-if="showDeleteConfirm"
-          class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
-          <div class="relative p-8 bg-primary rounded-box text-center w-3/4 max-w-md">
-            <!-- Botón para cerrar ventana -->
-            <button class="absolute top-2 right-2 text-white" @click="closeDeleteConfirm" aria-label="Cerrar ventana">
-              <img src="../../assets/icons/Resaltado/Accion/close-icon.svg" alt="Cerrar" class="w-8 h-8" />
-            </button>
-
-            <!-- Mensaje de confirmacion -->
-            <h3 class="text-white font-bold mb-4 text-center text-[24px]">
-              ¿Estás seguro de eliminar la caja?
-            </h3>
-            <img src="../../assets/icons/Resaltado/Alerta/alert-icon.svg" alt="Advertencia"
-              class="w-20 h-20 mx-auto mb-4" />
-
-            <!-- Botones -->
-            <div class="flex justify-around mt-4">
-              <button @click="confirmDeleteCaja"
-                class="bg-success text-black py-2 px-16 rounded-box font-bold hover:bg-opacity-90">
-                Sí
-              </button>
-              <button @click="closeDeleteConfirm"
-                class="bg-danger text-black py-2 px-16 rounded-box font-bold hover:bg-opacity-90">
-                No
-              </button>
-            </div>
-          </div>
-        </div>
-      </transition>
+      <ConfirmDeleteModal :visible="showDeleteConfirm" :mensaje="'¿Estás seguro de eliminar la caja?'"
+        @close="closeDeleteConfirm" @confirm="confirmDeleteCaja" />
 
       <!-- Mensaje de Error -->
-      <transition name="slide">
-        <div v-if="showError"
-          class="fixed top-4 right-0 bg-danger text-text-light px-4 py-2 rounded-l-md shadow-lg flex items-start space-x-3 animate-slide-in">
-          <img src="../../assets/icons/Resaltado/Alerta/alert-icon.svg" alt="Icono de error" class="w-6 h-6 mt-3" />
-          <div>
-            <p class="font-semibold">Debes completar todos los campos</p>
-            <p class="font-semibold items-center">Intenta de nuevo</p>
-          </div>
-        </div>
-      </transition>
+      <ErrorMessage v-if="showError" :message_1="'Debes completar todos los campos'" message_2="Intenta de nuevo"
+        class="animate-slide-in" />
     </div>
   </main>
 </template>
@@ -270,8 +234,10 @@
 // Importaciones
 import { ref, reactive, computed, watch } from "vue";
 import Navbar from "../../components/Navbar.vue";
+import ErrorMessage from "../../components/ErrorMessage.vue";
+import ConfirmDeleteModal from "../../components/ConfirmDeleteModal.vue";
 
-// Variables
+// Variables reactivas
 const isAddingNewCaja = ref(false);
 const selectedCaja = ref(null);
 const editMode = ref(false);
@@ -358,7 +324,8 @@ const filteredCajas = computed(() => {
 const showDeleteConfirm = ref(false);
 const cajaToDelete = ref(null);
 const showError = ref(false);
-const placeholderImage = ref("@/assets/icons/Temas/placeholder.jpg");
+const placeholderImage = ref("../../assets/icons/Temas/placeholder.jpg");
+const imageToDisplay = selectedCaja.value?.foto || newCaja.foto;
 
 /* Funciones */
 // Alterna entre crear y ver caja
@@ -442,14 +409,14 @@ const saveCaja = () => {
   editMode.value = false;
 };
 
-
-// Escoger una imagen
+// Función para manejar la selección de una imagen
 const onImageSelected = (event) => {
   const file = event.target.files[0];
   if (file) {
     const imageUrl = URL.createObjectURL(file);
     placeholderImage.value = imageUrl;
 
+    // Si estamos editando una caja existente
     if (selectedCaja.value) {
       selectedCaja.value.foto = imageUrl;
     } else {
@@ -495,36 +462,35 @@ filteredCajas.value = cajas;
 <!-- Estilos -->
 <style scoped>
 /* Fuentes */
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Josefin+Sans:wght@400;600&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Josefin+Sans:wght@400;600&display=swap');
 
-.font-heading {
-  font-family: "Poppins", sans-serif;
-}
-
-.font-sans {
-  font-family: "Josefin Sans", sans-serif;
-}
-
-/* Estilos extras */
+/* Fondo de Pantalla */
 main {
   background-image: url("../../assets/icons/Fondo_de_Pantalla/FondoPantalla.png");
   background-size: cover;
   background-position: center;
 }
 
-/* Animaciones */
-@keyframes slide-in {
-  0% {
-    transform: translateX(100%);
-  }
-
-  100% {
-    transform: translateX(0);
-  }
+/* Barra de scroll */
+section>div {
+  scrollbar-width: auto;
+  scrollbar-color: #946ad8 #E0D3F5;
 }
 
-.animate-slide-in {
-  animation: slide-in 0.3s ease-out forwards;
+/* Estilos Responsivos */
+@media (max-width: 640px) {
+  .rounded-2xl {
+    border-radius: 20px;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  input,
+  button {
+    font-size: 0.875rem;
+  }
 }
 
 /* Estilos para la imagen de la caja */

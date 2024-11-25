@@ -8,10 +8,10 @@
     <!-- Contenedor principal -->
     <div class="flex w-full gap-6 mt-[26px] pl-10">
       <!-- Contenedor materiales -->
-      <section class="w-1/3 max-w-xs p-5 h-[560px] bg-primary rounded-box shadow-pr">
+      <section class="w-1/3 max-w-xs p-5 h-[560px] bg-primary rounded-card shadow-pr">
         <!-- Añadir material -->
         <button @click="toggleAddNewmaterial"
-          class="w-full bg-secondary text-white font-bold py-2 px-4 mb-4 rounded-box items-center justify-center">
+          class="w-full bg-secondary text-white font-bold py-2 px-4 mb-4 rounded-card items-center justify-center">
           Añadir material
         </button>
 
@@ -21,13 +21,13 @@
             <img src="../../assets/icons/Resaltado/Simbolo/lupa-icon.svg" alt="Icono Buscar" class="w-7 h-6" />
           </span>
           <input type="text" placeholder="Buscar por nombre" v-model="searchQuery" @input="filtermateriales"
-            class="block w-full pl-12 pr-3 py-3 text-center text-simple font-bold bg-light border border-gray-300 rounded-box shadow-sm placeholder-gray-400 focus:outline-none focus:ring-[#946ad8] focus:border-[#946ad8]" />
+            class="block w-full pl-12 pr-3 py-3 text-center text-simple font-bold bg-light border border-gray-300 rounded-card shadow-sm placeholder-gray-400 focus:outline-none focus:ring-[#946ad8] focus:border-[#946ad8]" />
         </div>
 
         <!-- Lista de materiales -->
         <div class="h-[380px] overflow-y-auto space-y-4 pr-5">
           <div v-for="(material, index) in filteredmateriales" :key="index" @click="selectmaterial(material)"
-            class="material-item p-1 pr-4 text-simple font-bold bg-light flex items-center rounded-box cursor-pointer">
+            class="material-item p-1 pr-4 text-simple font-bold bg-light flex items-center rounded-card cursor-pointer">
             <div class="icon w-10 h-10 flex items-center justify-center mr-4">
               <img src="../../assets/icons/Resaltado/Simbolo/flower-icon.svg" alt="Icono Cliente" class="w-8 h-8" />
             </div>
@@ -38,7 +38,7 @@
 
       <!-- Datos de las materiales -->
       <section
-        class="w-[850px] mx-auto p-6 h-[560px] bg-primary rounded-box shadow-pr flex flex-col items-center pb-10">
+        class="w-[850px] mx-auto p-6 h-[560px] bg-primary rounded-card shadow-pr flex flex-col items-center pb-10">
         <!-- Título de la sección -->
         <div class="flex items-center justify-center mb-6">
           <h2 class="text-[28px] md:text-[36px] font-bold text-white">
@@ -47,7 +47,7 @@
         </div>
 
         <!-- Contenedor principal -->
-        <div class="w-full bg-secondary p-10 rounded-box text-neutral">
+        <div class="w-full bg-secondary p-10 rounded-card text-neutral">
           <!-- Formulario de nueva material -->
           <div v-if="isAddingNewmaterial && !selectedmaterial" class="space-y-4">
             <h3 class="text-white font-bold text-lg">Nueva material</h3>
@@ -94,10 +94,10 @@
 
               <!-- Botones de formulario -->
               <div class="flex justify-around mt-4">
-                <button @click="saveNewmaterial" class="w-1/3 bg-success text-black py-2 px-4 rounded-box">
+                <button @click="saveNewmaterial" class="w-1/3 bg-success text-black py-2 px-4 rounded-card">
                   Guardar
                 </button>
-                <button @click="cancelAddmaterial" class="w-1/3 bg-danger text-black py-2 px-4 rounded-box">
+                <button @click="cancelAddmaterial" class="w-1/3 bg-danger text-black py-2 px-4 rounded-card">
                   Cancelar
                 </button>
               </div>
@@ -114,13 +114,13 @@
                 <input type="file" id="fileInput" @change="onImageSelected" class="hidden"
                   accept="image/png, image/jpeg, image/jpg" />
                 <label for="fileInput"
-                  class="cursor-pointer bg-light p-3 rounded-box w-36 h-36 md:w-40 md:h-40 flex justify-center items-center">
+                  class="cursor-pointer bg-light p-3 rounded-card w-36 h-36 md:w-40 md:h-40 flex justify-center items-center">
                   <img :src="placeholderImage" alt="Placeholder" class="w-full h-full object-cover" />
                 </label>
               </div>
               <!-- Normal -->
               <div v-if="!editMode" class="flex items-center">
-                <span class="bg-light p-3 rounded-box w-36 h-36 md:w-40 md:h-40 flex justify-center items-center">
+                <span class="bg-light p-3 rounded-card w-36 h-36 md:w-40 md:h-40 flex justify-center items-center">
                   <img :src="selectedmaterial.foto" alt="Foto" class="w-full h-full object-cover" />
                 </span>
               </div>
@@ -222,7 +222,7 @@
       <transition name="slide">
         <div v-if="showDeleteConfirm"
           class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
-          <div class="relative p-8 bg-primary rounded-box text-center w-3/4 max-w-md">
+          <div class="relative p-8 bg-primary rounded-card text-center w-3/4 max-w-md">
             <!-- Botón para cerrar ventana -->
             <button class="absolute top-2 right-2 text-white" @click="closeDeleteConfirm" aria-label="Cerrar ventana">
               <img src="../../assets/icons/Resaltado/Accion/close-icon.svg" alt="Cerrar" class="w-8 h-8" />
@@ -238,11 +238,11 @@
             <!-- Botones -->
             <div class="flex justify-around mt-4">
               <button @click="confirmDeletematerial"
-                class="bg-success text-black py-2 px-16 rounded-box font-bold hover:bg-opacity-90">
+                class="bg-success text-black py-2 px-16 rounded-card font-bold hover:bg-opacity-90">
                 Sí
               </button>
               <button @click="closeDeleteConfirm"
-                class="bg-danger text-black py-2 px-16 rounded-box font-bold hover:bg-opacity-90">
+                class="bg-danger text-black py-2 px-16 rounded-card font-bold hover:bg-opacity-90">
                 No
               </button>
             </div>
