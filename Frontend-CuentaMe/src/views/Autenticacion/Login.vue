@@ -22,7 +22,7 @@
                 class="w-5 h-5" />
             </div>
             <input type="email" id="email" v-model="email" required
-              class="block w-full pl-12 pr-10 py-3 text-center text-neutral font-bold bg-light border border-gray-300 rounded-input shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary focus:border-primary"
+              class="block w-full pl-12 pr-10 py-3 text-center text-texto font-bold bg-light border border-gray-300 rounded-input shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary focus:border-primary"
               placeholder="Correo electrónico" aria-label="Correo electrónico" />
           </div>
 
@@ -34,7 +34,7 @@
                 class="w-5 h-5" />
             </div>
             <input :type="showPassword ? 'text' : 'password'" id="clave" v-model="clave" required
-              class="block w-full pl-12 pr-10 py-3 text-center text-neutral font-bold bg-light border border-gray-300 rounded-input shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary focus:border-primary"
+              class="block w-full pl-12 pr-10 py-3 text-center text-texto font-bold bg-light border border-gray-300 rounded-input shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary focus:border-primary"
               placeholder="Contraseña" aria-label="Contraseña" />
             <div class="absolute inset-y-0 right-4 flex items-center cursor-pointer" @click="togglePasswordVisibility">
               <img src="../../assets/icons/Resaltado/Accion/eyepswd-icon.svg" alt="Mostrar/Ocultar contraseña"
@@ -71,7 +71,7 @@
 
 <!-- Scripts -->
 <script setup>
-// Importaciones
+/* Importaciones */
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import ErrorMessage from "../../components/ErrorMessage.vue";

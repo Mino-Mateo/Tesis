@@ -30,7 +30,7 @@
 
 <!-- Scripts -->
 <script setup>
-// Importaciones
+/* Importaciones */
 import Navbar from "../../components/Navbar.vue";
 import { useRouter } from "vue-router";
 import cajaIcon from "../../assets/icons/Resaltado/Simbolo/caja-icon.svg";

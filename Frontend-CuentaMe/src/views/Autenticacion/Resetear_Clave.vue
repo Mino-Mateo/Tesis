@@ -30,7 +30,7 @@
                 class="w-5 h-5" />
             </span>
             <input :type="showPassword ? 'text' : 'password'" v-model="newPassword" required
-            class="block w-full pl-12 pr-3 py-3 text-center text-neutral font-bold bg-light border border-gray-300 rounded-card shadow-sm placeholder-gray-400 focus:outline-none focus:ring-[#946ad8] focus:border-[#946ad8]"
+            class="block w-full pl-12 pr-3 py-3 text-center text-texto font-bold bg-light border border-gray-300 rounded-card shadow-sm placeholder-gray-400 focus:outline-none focus:ring-[#946ad8] focus:border-[#946ad8]"
             placeholder="Nueva Contraseña" />
             <!-- Icono -->
             <span class="absolute inset-y-0 right-4 flex items-center cursor-pointer"
@@ -46,7 +46,7 @@
                 class="w-5 h-5" />
             </span>
             <input :type="showConfirmPassword ? 'text' : 'password'" v-model="confirmPassword" required
-              class="block w-full pl-12 pr-3 py-3 text-center text-neutral font-bold bg-light border border-gray-300 rounded-card shadow-sm placeholder-gray-400 focus:outline-none focus:ring-[#946ad8] focus:border-[#946ad8]"
+              class="block w-full pl-12 pr-3 py-3 text-center text-texto font-bold bg-light border border-gray-300 rounded-card shadow-sm placeholder-gray-400 focus:outline-none focus:ring-[#946ad8] focus:border-[#946ad8]"
               placeholder="Confirmar Contraseña" />
             <!-- Icono -->
             <span class="absolute inset-y-0 right-4 flex items-center cursor-pointer"
@@ -80,7 +80,7 @@
 
 <!-- Scripts -->
 <script setup>
-// Importaciones
+/* Importaciones */
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import ErrorMessage from "../../components/ErrorMessage.vue";

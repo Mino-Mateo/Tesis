@@ -14,10 +14,8 @@ export default {
         success: '#95CF68',   // Color para éxito
         danger: '#DA6B65',    // Color para error o peligro
         warning: '#EBBA53',   // Color de advertencia
-        neutral: '#4B3C68',   // Color neutro (para textos oscuros)
-        simple: '#8A8A8A',    // Color simple para textos
-        content: '#E9D8FD',   // Color para los rellenos
-        
+        texto: '#585a5e',
+
         // Colores de texto
         'text-light': '#F7F7F7',       // Texto claro
         'text-dark': '#333333',        // Texto oscuro

@@ -7,7 +7,7 @@
 
 <!-- Scripts -->
 <script setup>
-// Importaciones
+/* Importaciones */
 import Navbar from "../../components/Navbar.vue";
 </script>
 

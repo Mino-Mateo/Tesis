@@ -30,7 +30,7 @@
 
 <!-- Scripts -->
 <script setup>
-// Importaciones
+/* Importaciones */
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 

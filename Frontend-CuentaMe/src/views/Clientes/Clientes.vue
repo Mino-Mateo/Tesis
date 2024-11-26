@@ -10,7 +10,7 @@
       <!-- Contenedor Izquierda -->
       <section class="w-1/3 max-w-xs p-5 bg-primary rounded-card shadow-lg">
         <!-- Cuadro de búsqueda -->
-        <div class="pb-6 text-neutral">
+        <div class="pb-6 text-texto">
           <input type="text" aria-label="Buscar clientes por nombre" placeholder="Buscar por nombre"
             v-model="searchQuery" @input="filterClientes"
             class="w-full bg-light p-3 rounded-md shadow-md text-center focus:outline-none" />
@@ -22,7 +22,7 @@
         <!-- Lista de clientes -->
         <div class="h-[425px] overflow-y-auto space-y-4 pr-4">
           <div v-for="(cliente, index) in filteredClientes" :key="index" @click="selectCliente(cliente)"
-            class="cliente-item flex items-center bg-light p-2 rounded-md shadow-md cursor-pointer text-neutral">
+            class="cliente-item flex items-center bg-light p-2 rounded-md shadow-md cursor-pointer text-texto">
             <img src="../../assets/icons/Resaltado/Simbolo/cliente-icon.svg" alt="Icono Cliente"
               class="w-10 h-10 rounded-full mr-4" />
             <span>{{ cliente.nombre }} {{ cliente.apellido }}</span>
@@ -35,15 +35,15 @@
         <h2 class="text-3xl text-center mb-6 font-heading font-bold text-text-light">Datos del cliente</h2>
 
         <!-- Contenedor de datos del cliente -->
-        <div class="w-full bg-secondary p-6 rounded-card text-text-light">
+        <div class="w-full bg-secondary p-6 rounded-card text-texto">
           <!-- Texto antes de seleccionar al cliente -->
-          <div v-if="!selectedCliente" class="text-[25px] text-center font-semibold font-sans">
+          <div v-if="!selectedCliente" class="text-[25px] text-center font-semibold font-sans text-text-light">
             Selecciona a un cliente para ver sus datos
           </div>
 
           <!-- Datos del cliente -->
           <div v-else>
-            <div class="space-y-6">
+            <div class="space-y-6 pr-2">
               <!-- Correo -->
               <InfoRow label="Correo" :value="selectedCliente.correo" icon="mail-icon.svg" />
 
@@ -70,7 +70,7 @@
 
 <!-- Scripts -->
 <script setup>
-// Importaciones
+/* Importaciones */
 import { ref, computed } from 'vue';
 import Navbar from '../../components/Navbar.vue';
 import InfoRow from '../../components/InfoRow.vue';

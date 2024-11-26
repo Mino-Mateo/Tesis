@@ -29,7 +29,7 @@
               <img src="../../assets/icons/Resaltado/Simbolo/mail-icon.svg" alt="Icono Carta" class="w-5 h-5" />
             </span>
             <input type="email" v-model="email" required
-              class="block w-full pl-12 pr-3 py-3 text-center text-neutral font-bold bg-light border border-gray-300 rounded-card shadow-sm placeholder-gray-400 focus:outline-none focus:ring-[#946ad8] focus:border-[#946ad8]"
+              class="block w-full pl-12 pr-3 py-3 text-center text-texto font-bold bg-light border border-gray-300 rounded-card shadow-sm placeholder-gray-400 focus:outline-none focus:ring-[#946ad8] focus:border-[#946ad8]"
               placeholder="Correo electrónico" aria-label="Correo electrónico" />
           </div>
 
@@ -56,7 +56,7 @@
 
 <!-- Scripts -->
 <script setup>
-// Importaciones
+/* Importaciones */
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import ConfirmationModal from "../../components/ConfirmationModal.vue";

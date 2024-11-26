@@ -27,7 +27,7 @@
 
 <!-- Scripts -->
 <script setup>
-// Importaciones
+/* Importaciones */
 import { defineProps, defineEmits } from "vue";
 
 // Variables reactivas
