@@ -369,38 +369,59 @@ const cancelAddMaterial = () => {
   isAddingNewMaterial.value = false;
 };
 
-// Validar precio
-const validatePrice = (event) => {
-  let value = event.target.value;
-
-  // Permitir hasta 2 decimales
-  let regex = /^\d*\.?\d{0,2}$/;
-
-  if (regex.test(value)) {
-    newMaterial.precio = value;
+// Formatear precio a dos decimales
+const formatPrice = () => {
+  if (newMaterial.precio !== null && newMaterial.precio !== undefined && !isNaN(newMaterial.precio) && parseFloat(newMaterial.precio) >= 0) {
+    newMaterial.precio = parseFloat(newMaterial.precio).toFixed(2);
+  } else {
+    newMaterial.precio = '0.00'; 
   }
 };
 
-// Formatear precio a dos decimales
-const formatPrice = () => {
-  if (newMaterial.precio !== null && newMaterial.precio !== undefined) {
-    newMaterial.precio = parseFloat(newMaterial.precio).toFixed(2);
+// Validar precio
+const validatePrice = (event) => {
+  let value = event.target.value;
+  let regex = /^\d*\.?\d{0,2}$/;
+
+  // Verificar que el valor sea un número válido
+  if (regex.test(value) && parseFloat(value) >= 0) {
+    newMaterial.precio = value;
+  } else {
+    event.target.value = newMaterial.precio; 
+  }
+};
+
+// Formatear stock 
+const formatStock = () => {
+  // Asegurarse de que el stock sea un número entero no negativo
+  if (newMaterial.stock !== null && newMaterial.stock !== undefined && !isNaN(newMaterial.stock) && parseInt(newMaterial.stock) >= 0) {
+    newMaterial.stock = parseInt(newMaterial.stock);
+  } else {
+    newMaterial.stock = 0;
   }
 };
 
 // Validar stock
 const validateStock = (event) => {
-  const value = event.target.value.replace(/[^0-9]/g, "");
-  newCaja.stock = Math.max(parseInt(value, 10) || 0, 0);
+  let value = event.target.value;
+  let regex = /^\d*$/;  
+
+  // Validar que el valor sea un número entero no negativo
+  if (regex.test(value) && parseInt(value) >= 0) {
+    newMaterial.stock = value;
+  } else {
+    event.target.value = newMaterial.stock;  
+  }
 };
 
 // Guardar nuevo material
 const saveNewMaterial = () => {
+  // Validar que no haya campos vacíos o valores incorrectos
   if (
-    !newMaterial.nombre.trim() ||
-    !newMaterial.descripcion.trim() ||
-    newMaterial.precio <= 0 ||
-    newMaterial.stock <= 0 ||
+    !newMaterial.nombre.trim() || 
+    !newMaterial.descripcion.trim() || 
+    newMaterial.precio <= 0 || 
+    newMaterial.stock < 0 || 
     !newMaterial.foto
   ) {
     showError.value = true;
@@ -408,25 +429,29 @@ const saveNewMaterial = () => {
     return;
   }
 
+  formatStock();
   formatPrice();
-  materiales.push({ ...newMaterial });
-  resetNewMaterialForm();
+  materiales.push({ ...newMaterial }); 
+  resetNewMaterialForm();  // Se cambió de resetNewCajaForm a resetNewMaterialForm
   isAddingNewMaterial.value = false;
 };
 
-// Guardar material editada
+// Guardar material editado
 const saveMaterial = () => {
   if (selectedMaterial.value) {
-    // Formatear precio 
+    // Asegurarse de que el precio esté bien formateado
     selectedMaterial.value.precio = parseFloat(selectedMaterial.value.precio).toFixed(2);
+    
+    // Validar y formatear el stock
+    selectedMaterial.value.stock = parseInt(selectedMaterial.value.stock) >= 0 ? parseInt(selectedMaterial.value.stock) : 0;
 
-    const index = materiales.indexOf(selectedMaterial.value);
+    // Encontrar el material en el array y actualizarlo
+    const index = materiales.indexOf(selectedMaterial.value);  // Se cambió de cajas a materiales
     if (index !== -1) {
-      // Guardar cambios
       materiales[index] = { ...selectedMaterial.value };
     }
     editMode.value = false;
-    resetNewMaterialForm();
+    resetNewMaterialForm();  // Se cambió de resetNewCajaForm a resetNewMaterialForm
   }
 };
 

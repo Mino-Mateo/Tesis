@@ -369,38 +369,59 @@ const cancelAddCaja = () => {
   isAddingNewCaja.value = false;
 };
 
-// Validar precio
-const validatePrice = (event) => {
-  let value = event.target.value;
-
-  // Permitir hasta 2 decimales
-  let regex = /^\d*\.?\d{0,2}$/;
-
-  if (regex.test(value)) {
-    newCaja.precio = value;
+// Formatear precio a dos decimales
+const formatPrice = () => {
+  if (newCaja.precio !== null && newCaja.precio !== undefined && !isNaN(newCaja.precio) && parseFloat(newCaja.precio) >= 0) {
+    newCaja.precio = parseFloat(newCaja.precio).toFixed(2);
+  } else {
+    newCaja.precio = '0.00'; 
   }
 };
 
-// Formatear precio a dos decimales
-const formatPrice = () => {
-  if (newCaja.precio !== null && newCaja.precio !== undefined) {
-    newCaja.precio = parseFloat(newCaja.precio).toFixed(2);
+// Validar precio
+const validatePrice = (event) => {
+  let value = event.target.value;
+  let regex = /^\d*\.?\d{0,2}$/;
+
+  // Verificar que el valor sea un número válido y no negativo
+  if (regex.test(value) && parseFloat(value) >= 0) {
+    newCaja.precio = value;
+  } else {
+    event.target.value = newCaja.precio; // Restaurar el valor original si es inválido
+  }
+};
+
+// Formatear stock 
+const formatStock = () => {
+  // Asegurarse de que el stock sea un número entero no negativo
+  if (newCaja.stock !== null && newCaja.stock !== undefined && !isNaN(newCaja.stock) && parseInt(newCaja.stock) >= 0) {
+    newCaja.stock = parseInt(newCaja.stock);
+  } else {
+    newCaja.stock = 0;  // Si el stock es inválido, ponerlo a 0
   }
 };
 
 // Validar stock
 const validateStock = (event) => {
-  const value = event.target.value.replace(/[^0-9]/g, "");
-  newCaja.stock = Math.max(parseInt(value, 10) || 0, 0);
+  let value = event.target.value;
+  let regex = /^\d*$/;  
+
+  // Validar que el valor sea un número entero no negativo
+  if (regex.test(value) && parseInt(value) >= 0) {
+    newCaja.stock = value;
+  } else {
+    event.target.value = newCaja.stock;  // Restaurar el valor original si es inválido
+  }
 };
 
 // Guardar nueva caja
 const saveNewCaja = () => {
+  // Validar que no haya campos vacíos o valores incorrectos
   if (
-    !newCaja.nombre.trim() ||
-    !newCaja.descripcion.trim() ||
-    newCaja.precio <= 0 ||
-    newCaja.stock <= 0 ||
+    !newCaja.nombre.trim() || 
+    !newCaja.descripcion.trim() || 
+    newCaja.precio <= 0 || 
+    newCaja.stock < 0 || 
     !newCaja.foto
   ) {
     showError.value = true;
@@ -408,25 +429,29 @@ const saveNewCaja = () => {
     return;
   }
 
+  formatStock();
   formatPrice();
-  cajas.push({ ...newCaja });
-  resetNewCajaForm();
+  cajas.push({ ...newCaja }); 
+  resetNewCajaForm(); 
   isAddingNewCaja.value = false;
 };
 
 // Guardar caja editada
 const saveCaja = () => {
   if (selectedCaja.value) {
-    // Formatear precio 
+    // Asegurarse de que el precio esté bien formateado
     selectedCaja.value.precio = parseFloat(selectedCaja.value.precio).toFixed(2);
+    
+    // Validar y formatear el stock
+    selectedCaja.value.stock = parseInt(selectedCaja.value.stock) >= 0 ? parseInt(selectedCaja.value.stock) : 0;
 
+    // Encontrar la caja en el array y actualizarla
     const index = cajas.indexOf(selectedCaja.value);
     if (index !== -1) {
-      // Guardar cambios
       cajas[index] = { ...selectedCaja.value };
     }
     editMode.value = false;
-    resetNewCajaForm();
+    resetNewCajaForm(); // Resetear formulario
   }
 };
 
