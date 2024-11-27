@@ -21,7 +21,6 @@
           <img :src="materialIcon" alt="Icono Materiales" class="mb-6 w-16 h-16" />
           <span class="text-3xl text-center font-heading font-bold text-text-light">Materiales</span>
         </div>
-
       </div>
     </section>
 

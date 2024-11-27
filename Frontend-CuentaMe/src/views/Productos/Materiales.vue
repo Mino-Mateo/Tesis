@@ -391,7 +391,7 @@ const formatPrice = () => {
 // Validar stock
 const validateStock = (event) => {
   const value = event.target.value.replace(/[^0-9]/g, "");
-  newMaterial.stock = parseInt(value, 10) || 0;
+  newCaja.stock = Math.max(parseInt(value, 10) || 0, 0);
 };
 
 // Guardar nuevo material

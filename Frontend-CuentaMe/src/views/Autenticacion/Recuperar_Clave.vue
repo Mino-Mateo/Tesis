@@ -4,7 +4,8 @@
     <div class="flex flex-1 items-center justify-center">
 
       <!-- Regresar al Login -->
-      <button class="absolute flex justify-center rounded-input top-4 left-6 w-10 h-10 bg-primary hover:bg-hover-primary"
+      <button
+        class="absolute flex justify-center rounded-input top-4 left-6 w-10 h-10 bg-primary hover:bg-hover-primary"
         @click="navigateToLogin" aria-label="Regresar al login">
         <img src="../../assets/icons/Resaltado/Accion/back-icon.svg" alt="Flecha Regresar"
           class="w-6 h-6 self-center" />
@@ -26,7 +27,7 @@
           <!-- Campo de Correo Electrónico -->
           <div class="relative">
             <span class="absolute inset-y-0 left-4 flex items-center">
-              <img src="../../assets/icons/Resaltado/Simbolo/mail-icon.svg" alt="Icono Carta" class="w-5 h-5" />
+              <img src="../../assets/icons/Resaltado/Simbolo/mail-icon.svg" alt="Icono Carta" class="w-7 h-7" />
             </span>
             <input type="email" v-model="email" required
               class="block w-full pl-12 pr-3 py-3 text-center text-texto font-bold bg-light border border-gray-300 rounded-card shadow-sm placeholder-gray-400 focus:outline-none focus:ring-[#946ad8] focus:border-[#946ad8]"
@@ -57,7 +58,7 @@
 <!-- Scripts -->
 <script setup>
 /* Importaciones */
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import ConfirmationModal from "../../components/ConfirmationModal.vue";
 import ErrorMessage from "../../components/ErrorMessage.vue";
@@ -85,6 +86,12 @@ function handlePasswordRecovery() {
     setTimeout(() => (showError.value = false), 5000);
   }
 }
+
+// Enfoque del correo electrónico
+onMounted(() => {
+  const emailInput = document.querySelector("input[type='email']");
+  emailInput && emailInput.focus();
+});
 
 // Función para cerrar la ventana de confirmación
 function closeConfirmation() {
