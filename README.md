@@ -74,5 +74,4 @@ https://cuentamesistem.netlify.app/
 ## 🎥 Video Demostrativo
 
 Esta es un guía visual sobre como manejar el sistema
-
-https://github.com/Mino-Mateo/Examen_Moviles_Chat/assets/118315392/855443f6-8948-4503-bd05-7c5dd420e7c2
+https://www.youtube.com/watch?v=FWFaQdT-VIc
