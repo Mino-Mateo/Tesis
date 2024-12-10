@@ -3,7 +3,7 @@
   <nav class="navbar flex items-center justify-between bg-primary p-4 font-heading rounded-b-lg shadow-lg">
     <!-- Texto de bienvenida -->
     <div class="flex-1">
-      <span class="text-text-light text-lg font-bold">Bienvenid@ {{ userName }}</span>
+      <span class="text-text-light text-lg font-bold">Bienvenida {{ userName }}</span>
     </div>
 
     <!-- Navegación -->
@@ -24,6 +24,7 @@
         <span>Salir</span>
       </button>
     </div>
+
   </nav>
 </template>
 
@@ -40,7 +41,6 @@ const userName = ref("Mariana");
 // Función para cerrar sesión
 function handleLogout() {
   localStorage.removeItem("authToken");
-  localStorage.removeItem("userName");
   router.push({ name: "Login" });
 }
 </script>
@@ -55,19 +55,14 @@ function handleLogout() {
 }
 
 /* Responsividad */
-@media (max-width: 640px) {
+@media (max-width: 768px) {
   .navbar {
-    padding: 1rem;
-    gap: 0.5rem;
+    flex-direction: column;
+    text-align: center;
   }
 
   .logout-button {
-    width: 100%;
-    justify-content: center;
-  }
-
-  .flex-1 {
-    margin-bottom: 0.5rem;
+    margin-top: 10px;
   }
 }
 </style>
