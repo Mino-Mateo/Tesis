@@ -2,7 +2,6 @@
 <template>
   <main id="main" class="flex flex-col w-full min-h-screen">
     <div class="flex flex-1 items-center justify-center">
-
       <!-- Regresar al Login -->
       <button
         class="absolute flex justify-center rounded-input top-4 left-6 w-10 h-10 bg-primary hover:bg-hover-primary"
@@ -13,13 +12,13 @@
 
       <!-- Contenedor Principal -->
       <div class="w-full max-w-md p-8 bg-primary rounded-card shadow-pr">
-
         <!-- Texto -->
         <h2 class="text-3xl text-center mb-6 font-heading font-bold text-text-light">
           Recuperar Contraseña
         </h2>
         <p class="text-center mb-4 text-text-light font-sans">
-          Ingresa tu correo electrónico, te enviaremos un correo para cambiar tu contraseña.
+          Ingresa tu correo electrónico, te enviaremos un correo para cambiar tu
+          contraseña.
         </p>
 
         <!-- Formulario de Recuperación -->
@@ -29,7 +28,7 @@
             <span class="absolute inset-y-0 left-4 flex items-center">
               <img src="../../assets/icons/Resaltado/Simbolo/mail-icon.svg" alt="Icono Carta" class="w-7 h-7" />
             </span>
-            <input type="email" v-model="email" required
+            <input type="correo" v-model="correo" required
               class="block w-full pl-12 pr-3 py-3 text-center text-texto font-bold bg-light border border-gray-300 rounded-card shadow-sm placeholder-gray-400 focus:outline-none focus:ring-[#946ad8] focus:border-[#946ad8]"
               placeholder="Correo electrónico" aria-label="Correo electrónico" />
           </div>
@@ -51,7 +50,6 @@
     <!-- Mensaje de Error -->
     <ErrorMessage v-if="showError" :message_1="'Ingresa un correo electrónico válido'" message_2="Intenta de nuevo"
       class="animate-slide-in" />
-
   </main>
 </template>
 
@@ -60,27 +58,42 @@
 /* Importaciones */
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
+import axios from "axios";
 import ConfirmationModal from "../../components/ConfirmationModal.vue";
 import ErrorMessage from "../../components/ErrorMessage.vue";
 
 // Variables reactivas
-const email = ref("");
+const correo = ref("");
 const showConfirmation = ref(false);
 const showError = ref(false);
 const router = useRouter();
 
 // Formato del correo electrónico
-const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+const correoPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
 
 // Función para navegar al login
 function navigateToLogin() {
   router.push({ name: "Login" });
 }
 
-// Función para manejar la recuperación de contraseña
-function handlePasswordRecovery() {
-  if (emailPattern.test(email.value)) {
-    showConfirmation.value = true;
+// Función para recueprar la contraseña
+async function handlePasswordRecovery() {
+  if (correoPattern.test(correo.value)) {
+    try {
+      const response = await axios.post("/recuperar-password", {
+        correo: correo.value,
+      });
+
+      if (response.status === 200) {
+        showConfirmation.value = true;
+      } else {
+        throw new Error("Error en la respuesta del servidor");
+      }
+    } catch (error) {
+      console.error(error);
+      showError.value = true;
+      setTimeout(() => (showError.value = false), 5000);
+    }
   } else {
     showError.value = true;
     setTimeout(() => (showError.value = false), 5000);
@@ -89,8 +102,8 @@ function handlePasswordRecovery() {
 
 // Enfoque del correo electrónico
 onMounted(() => {
-  const emailInput = document.querySelector("input[type='email']");
-  emailInput && emailInput.focus();
+  const correoInput = document.querySelector("input[type='correo']");
+  correoInput && correoInput.focus();
 });
 
 // Función para cerrar la ventana de confirmación
