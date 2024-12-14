@@ -11,7 +11,7 @@
         <!-- Botón añadir Material -->
         <button @click="toggleAddNewMaterial"
           class="w-full flex items-center justify-center py-2 px-4 mb-5 bg-secondary text-text-light hover:bg-[#9397c0] focus:outline-none focus:ring-2 rounded-card focus:ring-[#946ad8] focus:border-[#946ad8] focus:ring-opacity-50 font-sans"
-          aria-label="Añadir nueva material">
+          aria-label="Añadir nuevo material">
           Añadir Material
         </button>
 
@@ -49,11 +49,11 @@
             Selecciona un material para ver sus datos
           </div>
 
-          <!-- Datos de la nueva material -->
+          <!-- Datos de la nuevo material -->
           <div v-if="isAddingNewMaterial && !selectedMaterial" class="rounded-card space-y-5">
             <!-- Título -->
             <h3 class="text-2xl font-bold text-center text-white">
-              Nueva Material
+              Nuevo material
             </h3>
 
             <!-- Campos del formulario -->
@@ -272,13 +272,6 @@ const filterMateriales = () => {
 const fetchMateriales = async () => {
   try {
     const { data } = await materialesAxios.get("/lista_productos");
-
-    // Verificar si data es un array
-    if (!Array.isArray(data)) {
-      manejarError("La respuesta del servidor no es un array. Verifica la API.");
-      return;
-    }
-
     materiales.value = data.map((material) => ({
       ...material,
       id: material._id || material.id,
@@ -293,7 +286,7 @@ const fetchMateriales = async () => {
   }
 };
 
-// Guardar nueva material
+// Guardar nuevo material
 const saveNewMaterial = async () => {
   if (isSaving.value) return;
   if (!validarNuevaMaterial()) return;
@@ -400,7 +393,7 @@ const selectMaterial = (material) => {
     selectedMaterial.value = null;
     editMode.value = false;
   } else {
-    // Seleccionar una nueva material
+    // Seleccionar una nuevo material
     selectedMaterial.value = material;
     editMode.value = false;
   }
@@ -415,7 +408,7 @@ const confirmDeleteMaterial = async (id) => {
 
   try {
     // Eliminar el material desde el backend
-    await materialesAxios.delete(`/eliminar_producto/${id}`);
+    await materialesAxios.delete(`/eliminar_productos/${id}`);
 
     // Actualizar la lista
     materiales.value = materiales.value.filter((material) => material.id !== id);
@@ -448,7 +441,7 @@ const cancelAddMaterial = () => {
 };
 
 /* Validaciones */
-// Validar nueva material
+// Validar nuevo material
 const validarNuevaMaterial = () => {
   if (!newMaterial.nombre.trim()) {
     mostrarError("El nombre es obligatorio.");
@@ -511,7 +504,7 @@ const toggleAddNewMaterial = () => {
   }
 };
 
-// Resetear formulario de nueva material
+// Resetear formulario de nuevo material
 const resetNewMaterialForm = () => {
   Object.assign(newMaterial, {
     nombre: "",
