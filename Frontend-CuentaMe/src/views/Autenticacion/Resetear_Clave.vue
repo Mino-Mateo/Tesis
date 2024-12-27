@@ -80,9 +80,9 @@
 
 <!-- Scripts -->
 <script setup>
-/* Importaciones */
 import { ref } from "vue";
 import { useRouter } from "vue-router";
+import axios from "axios";
 import ErrorMessage from "../../components/ErrorMessage.vue";
 import ConfirmationModal from "../../components/ConfirmationModal.vue";
 
@@ -101,12 +101,22 @@ function navigateToLogin() {
 }
 
 // Restablecer la contraseña
-function handlePasswordReset() {
+async function handlePasswordReset() {
   if (newPassword.value !== confirmPassword.value) {
     showError.value = true;
     setTimeout(() => (showError.value = false), 5000);
   } else {
-    setTimeout(() => (showConfirmation.value = true), 2000);
+    try {
+      const response = await axios.post("/api/admin/recuperar-password/", {
+        password: newPassword.value,
+      });
+      if (response.status === 200) {
+        showConfirmation.value = true;
+      }
+    } catch (error) {
+      showError.value = true;
+      setTimeout(() => (showError.value = false), 5000);
+    }
   }
 }
 

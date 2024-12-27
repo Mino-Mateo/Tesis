@@ -40,10 +40,11 @@ const routes = [
     meta: { requiresAuth: false },
   },
   {
-    path: "/Reseteo",
+    path: "/api/admin/recuperar-password/:token",
     name: "Resetear_Clave",
     component: () => import("../views/Autenticacion/Resetear_Clave.vue"),
     meta: { requiresAuth: false },
+    props: true,
   },
   {
     path: "/Menu",
